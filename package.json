@@ -32,7 +32,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@iyulab/desktop-compact": "file:../desktop-compact",
+    "@iyulab/desktop-compact": "^0.1.0",
     "lit": "^3.2.1"
   },
   "devDependencies": {
