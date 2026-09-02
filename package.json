@@ -1,0 +1,51 @@
+{
+  "name": "@iyulab/desktop-patterns",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "tokens.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./page": {
+      "types": "./dist/components/page/dp-page.d.ts",
+      "import": "./dist/page.js"
+    },
+    "./tokens.css": "./tokens.css"
+  },
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "web-test-runner \"src/**/*.test.ts\"",
+    "test:watch": "web-test-runner \"src/**/*.test.ts\" --watch",
+    "guard": "node scripts/check-forge-tokens.mjs",
+    "guard:test": "node --test scripts/*.test.mjs",
+    "storybook": "storybook dev -p 6007",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@iyulab/desktop-compact": "file:../desktop-compact",
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@storybook/addon-essentials": "^8.3.0",
+    "@storybook/web-components": "^8.3.0",
+    "@storybook/web-components-vite": "^8.3.0",
+    "@types/mocha": "^10.0.10",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
+    "storybook": "^8.3.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vite-plugin-dts": "^4.2.4"
+  }
+}

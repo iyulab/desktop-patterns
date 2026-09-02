@@ -1,0 +1,14 @@
+/*
+ * Structural tokens for @iyulab/desktop-patterns.
+ *
+ * This file adds ONLY the dimensions this layer introduces that
+ * @iyulab/desktop-compact has no concept of (sidebar/header sizing). Color,
+ * spacing-scale, radius, and typography tokens are NOT duplicated here —
+ * import @iyulab/desktop-compact/tokens.css alongside this file; every
+ * desktop-patterns component consumes --dc-* directly.
+ */
+:root {
+  --dp-sidebar-width: 220px;
+  --dp-sidebar-width-collapsed: 52px;
+  --dp-header-height: 52px;
+}
