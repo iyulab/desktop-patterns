@@ -26,7 +26,7 @@ export const Default: Story = {
     <div style="height: 500px; border: 1px solid var(--dc-color-border, #e2e2e4);">
       <dp-shell ?sidebar-open=${args.sidebarOpen}>
         <dp-sidebar slot="sidebar" .items=${ITEMS} active-id="overview" header="My App"></dp-sidebar>
-        <dp-toolbar slot="toolbar" title="My App" subtitle="Overview"></dp-toolbar>
+        <dp-toolbar slot="toolbar" heading="My App" subtitle="Overview"></dp-toolbar>
         <dp-page>
           <h2>Overview</h2>
           <p>Main content area, composed from dp-sidebar + dp-toolbar + dp-page inside dp-shell.</p>
@@ -41,7 +41,7 @@ export const WithBanner: Story = {
     <div style="height: 500px; border: 1px solid var(--dc-color-border, #e2e2e4);">
       <dp-shell>
         <dp-sidebar slot="sidebar" .items=${ITEMS} active-id="overview"></dp-sidebar>
-        <dp-toolbar slot="toolbar" title="My App"></dp-toolbar>
+        <dp-toolbar slot="toolbar" heading="My App"></dp-toolbar>
         <div
           slot="banner"
           style="padding: 8px 16px; background: var(--dc-color-warning, #d97706); color: white; font-size: 12px;"

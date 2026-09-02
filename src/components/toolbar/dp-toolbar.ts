@@ -8,9 +8,15 @@ export class DpToolbarToggleEvent extends Event {
 }
 
 /**
- * App-shell header bar: a title (optionally overridden per-view by
+ * App-shell header bar: a `heading` (optionally overridden per-view by
  * `subtitle`), an optional collapse/expand toggle, and a right-side
  * `actions` slot. Pure layout — this repo does not call any platform API.
+ *
+ * Named `heading`, not `title` — matches dc-section-heading's own
+ * established convention for this kind of headline text, and avoids
+ * shadowing the native HTMLElement.prototype.title (tooltip) accessor with
+ * an unrelated meaning, the same reasoning already applied to `drag-region`
+ * below.
  *
  * Drag region: the `drag-region` attribute only reflects intent, mirroring
  * dp-shell — this repo never emits any platform-specific CSS itself (see
@@ -82,7 +88,7 @@ export class DpToolbar extends LitElement {
   `
 
   @property()
-  title = ''
+  heading = ''
 
   @property()
   subtitle = ''
@@ -105,7 +111,7 @@ export class DpToolbar extends LitElement {
               ☰
             </button>`
           : nothing}
-        <span class="title">${this.subtitle || this.title}</span>
+        <span class="title">${this.subtitle || this.heading}</span>
       </div>
       <div class="actions"><slot name="actions"></slot></div>
     `
