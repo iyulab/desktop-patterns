@@ -62,6 +62,15 @@ export class DpShell extends LitElement {
       z-index: 40;
     }
     @media (min-width: 1024px) {
+      /* Must match (or exceed) \`:host([sidebar-open]) .sidebar-region\`'s
+         specificity above (0,3,0) — a bare \`.sidebar-region\` here is only
+         (0,1,0), so on equal-or-narrower cascades the desktop override would
+         lose to the sidebar-open rule regardless of this media query
+         matching, leaving the sidebar permanently \`position: fixed\` (full-
+         height overlay) at any width once \`sidebar-open\` is set. Repeating
+         the \`:host([sidebar-open])\` prefix here, rather than only the bare
+         selector, is what actually lets desktop width win. */
+      :host([sidebar-open]) .sidebar-region,
       .sidebar-region {
         display: block;
         position: relative;
