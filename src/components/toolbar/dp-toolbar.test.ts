@@ -39,6 +39,20 @@ describe('dp-toolbar', () => {
     expect(el.getAttribute('draggable')).to.be.null
   })
 
+  it('exposes a drag-handle part that is empty and cannot overlap the interactive toggle or actions slot (HD-17③)', async () => {
+    const el = await fixture<DpToolbar>(
+      html`<dp-toolbar heading="My App" show-toggle drag-region
+        ><button slot="actions">Action</button></dp-toolbar
+      >`
+    )
+    const handle = el.shadowRoot!.querySelector('[part="drag-handle"]')
+    expect(handle).to.exist
+    expect(handle!.children.length).to.equal(0)
+    expect(handle!.textContent!.trim()).to.equal('')
+    expect(handle!.querySelector('.toggle')).to.be.null
+    expect(handle!.querySelector('slot[name="actions"]')).to.be.null
+  })
+
   it('is accessible', async () => {
     const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
     await expect(el).to.be.accessible()

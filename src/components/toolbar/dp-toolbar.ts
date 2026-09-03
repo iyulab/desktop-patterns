@@ -18,7 +18,7 @@ export class DpToolbarToggleEvent extends Event {
  * an unrelated meaning, the same reasoning already applied to `drag-region`
  * below.
  *
- * Drag region: the `drag-region` attribute only reflects intent, mirroring
+ * Drag region: the `drag-region` attribute reflects intent only, mirroring
  * dp-shell — this repo never emits any platform-specific CSS itself (see
  * docs/superpowers/specs/2026-09-02-desktop-patterns-design.md, "플랫폼 API
  * 경계"). Named `drag-region`, not the native `draggable` — the platform HTML5
@@ -31,6 +31,16 @@ export class DpToolbarToggleEvent extends Event {
  * either. `--dp-toolbar-inset-start`/`--dp-toolbar-inset-end` (default 0)
  * generalize that into a neutral extension point a platform-adapter layer
  * can set.
+ *
+ * The drag CSS a consumer maps onto `drag-region` must never target the host
+ * itself — the host also contains the `.toggle` button and the `actions`
+ * slot, both interactive, and neither carries any no-drag exception. Instead
+ * a dedicated `part="drag-handle"` spacer sits between the start group and
+ * the actions group; it renders no content of its own (nothing is ever
+ * slotted into it), so it is structurally impossible for it to overlap an
+ * interactive child. Consumers scope the platform CSS to that one part, not
+ * to `dp-toolbar[drag-region]` alone — see this package's README (platform
+ * boundary — drag regions) for the exact selector.
  */
 @customElement('dp-toolbar')
 export class DpToolbar extends LitElement {
@@ -38,7 +48,6 @@ export class DpToolbar extends LitElement {
     :host {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       height: var(--dp-header-height, 52px);
       box-sizing: border-box;
       padding: 0 var(--dc-space-4, 16px);
@@ -80,6 +89,11 @@ export class DpToolbar extends LitElement {
       outline: 2px solid var(--dc-color-accent, #2563eb);
       outline-offset: 2px;
     }
+    .drag-handle {
+      flex: 1;
+      align-self: stretch;
+      min-width: var(--dc-space-4, 16px);
+    }
     .actions {
       display: flex;
       align-items: center;
@@ -113,6 +127,7 @@ export class DpToolbar extends LitElement {
           : nothing}
         <span class="title">${this.subtitle || this.heading}</span>
       </div>
+      <div class="drag-handle" part="drag-handle"></div>
       <div class="actions"><slot name="actions"></slot></div>
     `
   }

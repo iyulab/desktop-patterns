@@ -78,10 +78,22 @@ values, so it still renders correctly even without either stylesheet.
 
 ## Platform boundary — drag regions
 
-`dp-shell` and `dp-toolbar` expose a neutral `drag-region`/`toolbar-drag-region` flag (not the native
-`draggable`, which already means something else) but never emit any platform-specific CSS themselves.
-Mapping that flag to an actual window-drag behavior (e.g. `-webkit-app-region: drag` in
-Electron/Chromium-based webviews) is `electron-kit`'s job — see that package's docs once it exists.
+`dp-toolbar` exposes a neutral `drag-region` flag (not the native `draggable`, which already means
+something else) but never emits any platform-specific CSS itself. The flag reflects to the host
+attribute, but the actual drag surface is a dedicated `part="drag-handle"` spacer between the start
+group and the `actions` slot — never the whole host — so the mapping can never reach the toggle
+button or slotted actions. Mapping that part to an actual window-drag behavior (e.g.
+`-webkit-app-region: drag` in Electron/Chromium-based webviews) is `electron-kit`'s job:
+
+```css
+dp-toolbar[drag-region]::part(drag-handle) {
+  -webkit-app-region: drag;
+}
+```
+
+`dp-shell` does not mark any drag region of its own — it has no opinion on what's slotted into
+`toolbar`, so ownership of the drag handle stays entirely with whatever renders there (typically
+`dp-toolbar`).
 
 ## Components (v1 — complete, 5/5)
 

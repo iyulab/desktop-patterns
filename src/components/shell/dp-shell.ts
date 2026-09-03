@@ -20,12 +20,16 @@ export class DpShellSidebarCloseEvent extends Event {
  * anything there, and this repo has no business knowing what that banner
  * should be.
  *
- * Drag region: the toolbar row carries its own `toolbar-drag-region` flag
- * (default on, matching the original's always-on behavior) so the empty
- * space stays a drag handle even when the slotted toolbar doesn't supply
- * its own — same flag-only boundary as dp-toolbar's `drag-region` (see
- * docs/superpowers/specs/2026-09-02-desktop-patterns-design.md, "플랫폼 API
- * 경계"). No platform-specific CSS is emitted by this component either way.
+ * Drag region: this component does not mark any drag region of its own.
+ * The `toolbar-row` wrapper is sized exactly to whatever is slotted into
+ * `toolbar` — it has no empty space that is safely distinct from the
+ * slotted content's own interactive children, so a wrapper-level flag here
+ * could only ever mark the same box `dp-toolbar` already marks (redundant)
+ * or, worse, extend the drag region across content this component has no
+ * visibility into (unsafe — this component "has no opinion on what's
+ * inside any [slot]", per the class doc above). Drag-region ownership
+ * belongs entirely to whatever renders into the `toolbar` slot — see
+ * `dp-toolbar`'s own `part="drag-handle"`.
  */
 @customElement('dp-shell')
 export class DpShell extends LitElement {
@@ -86,9 +90,6 @@ export class DpShell extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'sidebar-open' })
   sidebarOpen = false
 
-  @property({ type: Boolean, attribute: 'toolbar-drag-region' })
-  toolbarDragRegion = true
-
   render() {
     return html`
       ${this.sidebarOpen
@@ -96,7 +97,7 @@ export class DpShell extends LitElement {
         : nothing}
       <div class="sidebar-region"><slot name="sidebar"></slot></div>
       <div class="main-column">
-        <div class="toolbar-row" ?data-drag-region=${this.toolbarDragRegion}>
+        <div class="toolbar-row">
           <slot name="toolbar"></slot>
         </div>
         <slot name="banner"></slot>

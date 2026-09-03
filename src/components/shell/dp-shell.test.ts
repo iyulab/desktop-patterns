@@ -33,14 +33,11 @@ describe('dp-shell', () => {
     expect(fired).to.be.true
   })
 
-  it('marks the toolbar row as a drag region by default', async () => {
+  it('does not mark the toolbar row as a drag region itself (HD-17③: ownership moved to whatever renders into the toolbar slot, e.g. dp-toolbar\'s own part="drag-handle")', async () => {
     const el = await fixture<DpShell>(html`<dp-shell></dp-shell>`)
-    expect(el.shadowRoot!.querySelector('.toolbar-row')!.hasAttribute('data-drag-region')).to.be.true
-  })
-
-  it('omits the drag-region marker when toolbar-drag-region is set to false', async () => {
-    const el = await fixture<DpShell>(html`<dp-shell .toolbarDragRegion=${false}></dp-shell>`)
-    expect(el.shadowRoot!.querySelector('.toolbar-row')!.hasAttribute('data-drag-region')).to.be.false
+    const toolbarRow = el.shadowRoot!.querySelector('.toolbar-row')!
+    expect(toolbarRow.hasAttribute('data-drag-region')).to.be.false
+    expect('toolbarDragRegion' in el).to.be.false
   })
 
   it('does not hardcode any banner content — only the slot exists', async () => {
