@@ -11,6 +11,8 @@ itself, and knows nothing about any specific consuming application.
 
 ## Install
 
+Requires Node ≥22.
+
 ```bash
 npm install @iyulab/desktop-patterns @iyulab/desktop-compact
 ```
