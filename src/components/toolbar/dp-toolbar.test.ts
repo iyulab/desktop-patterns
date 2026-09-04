@@ -53,6 +53,11 @@ describe('dp-toolbar', () => {
     expect(handle!.querySelector('slot[name="actions"]')).to.be.null
   })
 
+  it('declares the banner landmark role (replaces the literal <header> consumers used to render)', async () => {
+    const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App"></dp-toolbar>`)
+    expect(el.getAttribute('role')).to.equal('banner')
+  })
+
   it('is accessible', async () => {
     const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
     await expect(el).to.be.accessible()

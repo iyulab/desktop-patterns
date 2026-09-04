@@ -113,6 +113,18 @@ export class DpToolbar extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'drag-region' })
   dragRegion = false
 
+  connectedCallback(): void {
+    super.connectedCallback()
+    // Implicit landmark role: this component replaces what used to be a literal
+    // `<header>` element in every consumer, which carried the ARIA `banner`
+    // landmark implicitly. `dp-toolbar` itself is not a `<header>`, so it must
+    // declare the role explicitly to preserve that landmark-navigation surface.
+    // Set in `connectedCallback`, not the constructor — a custom element must
+    // not carry attributes before it is inserted (this repo's own dc-card
+    // follows the same pattern).
+    this.setAttribute('role', 'banner')
+  }
+
   render() {
     return html`
       <div class="start">
