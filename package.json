@@ -16,27 +16,33 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./page": {
       "types": "./dist/components/page/dp-page.d.ts",
-      "import": "./dist/page.js"
+      "import": "./dist/page.js",
+      "default": "./dist/page.js"
     },
     "./sidebar": {
       "types": "./dist/components/sidebar/dp-sidebar.d.ts",
-      "import": "./dist/sidebar.js"
+      "import": "./dist/sidebar.js",
+      "default": "./dist/sidebar.js"
     },
     "./toolbar": {
       "types": "./dist/components/toolbar/dp-toolbar.d.ts",
-      "import": "./dist/toolbar.js"
+      "import": "./dist/toolbar.js",
+      "default": "./dist/toolbar.js"
     },
     "./shell": {
       "types": "./dist/components/shell/dp-shell.d.ts",
-      "import": "./dist/shell.js"
+      "import": "./dist/shell.js",
+      "default": "./dist/shell.js"
     },
     "./shortcut-overlay": {
       "types": "./dist/components/shortcut-overlay/dp-shortcut-overlay.d.ts",
-      "import": "./dist/shortcut-overlay.js"
+      "import": "./dist/shortcut-overlay.js",
+      "default": "./dist/shortcut-overlay.js"
     },
     "./tokens.css": "./tokens.css"
   },
