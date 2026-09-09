@@ -85,9 +85,18 @@ export class DpSidebar extends LitElement {
       justify-content: center;
       padding: var(--dc-space-3, 12px) 0;
     }
+    /* The rail marker keeps the fill accent - it is a 3px bar, judged as a UI
+       component (WCAG 1.4.11, 3:1). The label does not: an accent chosen to be
+       read as a *fill* is not necessarily readable as 12px text on the hover
+       surface the active row sits on. Measured across seven consuming apps,
+       twelve of fourteen app x theme combinations failed AA that way, the worst
+       at 1.65:1 - and the active item is the one label a user most needs to
+       find. --dc-color-accent-text lets a consumer supply the readable
+       variant; falling back to the fill accent keeps every existing consumer
+       rendering exactly as before. */
     button[aria-current='page'] {
       border-left-color: var(--dc-color-accent, #2563eb);
-      color: var(--dc-color-accent, #2563eb);
+      color: var(--dc-color-accent-text, var(--dc-color-accent, #2563eb));
       font-weight: var(--dc-font-weight-medium, 500);
     }
     button:hover {
