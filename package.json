@@ -57,10 +57,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@iyulab/desktop-compact": "^0.2.0",
     "lit": "^3.2.1"
   },
+  "peerDependencies": {
+    "@iyulab/desktop-compact": "^0.2.0 || ^0.3.0"
+  },
   "devDependencies": {
+    "@iyulab/desktop-compact": "^0.3.0",
     "@open-wc/testing": "^4.0.0",
     "@storybook/addon-essentials": "^8.3.0",
     "@storybook/web-components": "^8.3.0",

@@ -125,9 +125,10 @@ npm run build          # per-component ESM output, type declarations
 npm run storybook      # interactive component browser
 ```
 
-Until `@iyulab/desktop-compact` publishes its first npm release, this package resolves it via
-`file:../desktop-compact` for local development (a sibling checkout at that relative path) — this
-switches to a registry semver range once `desktop-compact` publishes.
+`@iyulab/desktop-compact` is a **peer** dependency: this package reads its `--dc-*` tokens but never
+imports its code, so the consumer installs one copy and both packages share it. A regular dependency
+would give a consumer on a newer `desktop-compact` minor a second, unused copy nested under this
+package.
 
 ## License
 
