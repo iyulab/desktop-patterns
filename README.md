@@ -59,6 +59,32 @@ document.querySelector('dp-toolbar')!.addEventListener('dp-toolbar-toggle', () =
 })
 ```
 
+### Sidebar items: links, groups, icons, actions
+
+```ts
+nav.items = [
+  { id: 'overview', icon: '■', label: 'Overview', href: '/overview' }, // href → rendered as <a>
+  {
+    id: 'work', label: 'Work', collapsed: false,                        // a group: a disclosure over its items
+    items: [{ id: 'runs', icon: '▶', label: 'Runs', href: '/runs' }],
+  },
+]
+nav.bottomItems = [{ id: 'sign-out', icon: '⎋', label: 'Sign out' }]  // actions, not places
+nav.setAttribute('nav-label', 'Main')                                 // names the navigation landmark
+```
+
+- **`href`** renders the item as a link, so a router's link interception (or the browser) does the navigating.
+  `dp-sidebar-select` still fires and is cancelable — `preventDefault()` cancels the navigation and keeps the
+  active item. A modified click (Ctrl/⌘/Shift/Alt, middle button) opens the link elsewhere and selects nothing.
+  Items without `href` stay buttons and the consumer navigates on `dp-sidebar-select`.
+- **Groups** (`{ id, label, items, icon?, collapsed? }`) render as a named `role="group"` under a disclosure
+  button (`aria-expanded`). A group holding the active item is always open. In the collapsed rail every group's
+  items show, separated by a rule.
+- **Icons**: each item's icon is a slot named `icon-<id>` whose fallback is the item's `icon` text — slot any icon
+  element (`<svg slot="icon-overview">`) to replace it.
+- **Bottom items are actions**: each click fires `dp-sidebar-action` (`itemId`) — every time, so a failed action can
+  be retried — and never moves `aria-current`. (In 0.2.x they fired `dp-sidebar-select` and took the active mark.)
+
 Every component takes its user-facing text as a plain attribute/property or slot — there is no
 built-in i18n layer. See each component's Storybook story (`npm run storybook`) for its full API.
 

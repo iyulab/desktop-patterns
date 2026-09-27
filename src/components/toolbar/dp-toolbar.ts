@@ -110,6 +110,10 @@ export class DpToolbar extends LitElement {
   @property({ type: Boolean, attribute: 'show-toggle' })
   showToggle = false
 
+  /** Accessible name of the sidebar toggle — supply one in the app's language. */
+  @property({ attribute: 'toggle-label' })
+  toggleLabel = 'Toggle sidebar'
+
   @property({ type: Boolean, reflect: true, attribute: 'drag-region' })
   dragRegion = false
 
@@ -131,7 +135,7 @@ export class DpToolbar extends LitElement {
         ${this.showToggle
           ? html`<button
               class="toggle"
-              aria-label="Toggle sidebar"
+              aria-label=${this.toggleLabel}
               @click=${() => this.dispatchEvent(new DpToolbarToggleEvent())}
             >
               ☰

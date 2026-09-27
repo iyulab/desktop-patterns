@@ -77,6 +77,13 @@ describe('dp-shortcut-overlay', () => {
     expect(fired).to.be.false
   })
 
+  it('names the close button from close-label (default "Close")', async () => {
+    const plain = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay open></dp-shortcut-overlay>`)
+    expect(plain.shadowRoot!.querySelector('.close')!.getAttribute('aria-label')).to.equal('Close')
+    const named = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay open close-label="닫기"></dp-shortcut-overlay>`)
+    expect(named.shadowRoot!.querySelector('.close')!.getAttribute('aria-label')).to.equal('닫기')
+  })
+
   it('is accessible when open', async () => {
     const el = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay .shortcuts=${SHORTCUTS} open></dp-shortcut-overlay>`)
     await expect(el).to.be.accessible()

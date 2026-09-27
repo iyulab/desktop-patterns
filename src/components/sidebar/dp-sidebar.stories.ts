@@ -62,3 +62,33 @@ export const Collapsed: Story = {
     </div>
   `,
 }
+
+const GROUPED = [
+  { id: 'overview', icon: '■', label: 'Overview', href: '#overview' },
+  {
+    id: 'work',
+    icon: '▤',
+    label: 'Work',
+    items: [
+      { id: 'runs', icon: '▶', label: 'Runs', href: '#runs' },
+      { id: 'queue', icon: '≡', label: 'Queue', href: '#queue' },
+    ],
+  },
+  { id: 'admin', icon: '⚙', label: 'Admin', collapsed: true, items: [{ id: 'users', icon: '☺', label: 'Users', href: '#users' }] },
+]
+
+/** Links (`href`), a group per section, bottom items as actions, and a named landmark. */
+export const GroupedLinks: Story = {
+  render: (args) => html`
+    <div style="height: 480px;">
+      <dp-sidebar
+        .items=${GROUPED}
+        .bottomItems=${[{ id: 'sign-out', icon: '⎋', label: 'Sign out' }]}
+        active-id=${args.activeId}
+        header=${args.header}
+        nav-label="Main"
+        ?collapsed=${args.collapsed}
+      ></dp-sidebar>
+    </div>
+  `,
+}

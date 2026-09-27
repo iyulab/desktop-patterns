@@ -58,6 +58,13 @@ describe('dp-toolbar', () => {
     expect(el.getAttribute('role')).to.equal('banner')
   })
 
+  it('names the sidebar toggle from toggle-label (default "Toggle sidebar")', async () => {
+    const plain = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
+    expect(plain.shadowRoot!.querySelector('.toggle')!.getAttribute('aria-label')).to.equal('Toggle sidebar')
+    const named = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle toggle-label="사이드바 접기/펴기"></dp-toolbar>`)
+    expect(named.shadowRoot!.querySelector('.toggle')!.getAttribute('aria-label')).to.equal('사이드바 접기/펴기')
+  })
+
   it('is accessible', async () => {
     const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
     await expect(el).to.be.accessible()

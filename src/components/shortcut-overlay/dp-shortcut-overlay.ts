@@ -127,6 +127,10 @@ export class DpShortcutOverlay extends LitElement {
   @property({ attribute: 'empty-message' })
   emptyMessage = 'No shortcuts registered.'
 
+  /** Accessible name of the close button — supply one in the app's language. */
+  @property({ attribute: 'close-label' })
+  closeLabel = 'Close'
+
   @state()
   private headingId = `dp-shortcut-overlay-heading-${++instanceCount}`
 
@@ -168,7 +172,7 @@ export class DpShortcutOverlay extends LitElement {
         >
           <div class="header">
             <h2 id=${this.headingId}>${this.heading}</h2>
-            <button class="close" aria-label="Close" @click=${() => this.#dismiss()}>×</button>
+            <button class="close" aria-label=${this.closeLabel} @click=${() => this.#dismiss()}>×</button>
           </div>
           <div class="body">
             ${this.shortcuts.length === 0
