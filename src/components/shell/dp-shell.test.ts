@@ -33,7 +33,7 @@ describe('dp-shell', () => {
     expect(fired).to.be.true
   })
 
-  it('does not mark the toolbar row as a drag region itself (HD-17③: ownership moved to whatever renders into the toolbar slot, e.g. dp-toolbar\'s own part="drag-handle")', async () => {
+  it('does not mark the toolbar row as a drag region itself — whatever renders into the toolbar slot owns dragging, e.g. dp-toolbar\'s own part="drag-handle"', async () => {
     const el = await fixture<DpShell>(html`<dp-shell></dp-shell>`)
     const toolbarRow = el.shadowRoot!.querySelector('.toolbar-row')!
     expect(toolbarRow.hasAttribute('data-drag-region')).to.be.false
