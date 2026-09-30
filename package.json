@@ -54,6 +54,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "prepack": "npm run build",
     "typecheck": "tsc --noEmit",
     "test": "web-test-runner \"src/**/*.test.ts\"",
     "test:watch": "web-test-runner \"src/**/*.test.ts\" --watch",
