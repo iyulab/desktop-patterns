@@ -27,6 +27,23 @@ describe('dp-page', () => {
     expect(inner.style.maxWidth).to.equal('none')
   })
 
+  it('scrolls itself by default', async () => {
+    const el = await fixture<DpPage>(html`<dp-page style="height: 100px"><div style="height: 400px"></div></dp-page>`)
+    expect(getComputedStyle(el).overflowY).to.equal('auto')
+    expect(el.scrollHeight).to.be.greaterThan(el.clientHeight)
+  })
+
+  it('with fill, does not scroll: its column is as tall as the region, for a view that scrolls its own parts', async () => {
+    const el = await fixture<DpPage>(html`<dp-page fill style="height: 100px"
+      ><div style="flex: 1; min-height: 0; overflow: auto"><div style="height: 400px"></div></div
+    ></dp-page>`)
+    expect(getComputedStyle(el).overflowY).to.equal('hidden')
+    const inner = el.shadowRoot!.querySelector('.inner') as HTMLElement
+    expect(inner.getBoundingClientRect().height).to.equal(100)
+    const view = el.querySelector('div') as HTMLElement
+    expect(view.scrollHeight).to.be.greaterThan(view.clientHeight)
+  })
+
   it('is accessible', async () => {
     const el = await fixture<DpPage>(html`<dp-page><p>hello</p></dp-page>`)
     await expect(el).to.be.accessible()

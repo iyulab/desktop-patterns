@@ -133,7 +133,7 @@ dp-toolbar[drag-region]::part(drag-handle) {
 
 | Component | Description |
 |---|---|
-| `dp-page` | Scrollable content region with a centered, max-width column — the page-body every view renders into |
+| `dp-page` | Scrollable content region with a centered, max-width column — the page-body every view renders into. With `fill` it does not scroll and its column is as tall as the region, for a view that scrolls its own parts (a list beside the item open) |
 | `dp-sidebar` | App-shell navigation rail — expanded/collapsed states, an optional pinned bottom group, a `footer` slot for whatever a consumer wants to anchor there |
 | `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional collapse toggle, a right-side `actions` slot |
 | `dp-shell` | Top-level layout composing `sidebar`/`toolbar`/`banner`/main-content regions, with a responsive drawer (backdrop + overlay sidebar) below a 1024px breakpoint |

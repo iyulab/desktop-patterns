@@ -15,6 +15,11 @@ const MAX_WIDTH_PX: Record<PageMaxWidth, string> = {
  * Scrollable content region with a centered, max-width column — the page-body
  * pattern every view in an app shell renders into. Pure layout: it has no
  * opinion on what it contains (default slot only).
+ *
+ * With `fill`, the page does not scroll: its column fills the region's height
+ * (a flex column), for a view that divides its own scrolling — a list beside
+ * the item open, where the list scrolls and the item stays in view. The
+ * slotted view sizes itself within that height (e.g. `flex: 1; min-height: 0`).
  */
 @customElement('dp-page')
 export class DpPage extends LitElement {
@@ -30,10 +35,22 @@ export class DpPage extends LitElement {
       padding: var(--dc-space-6, 24px);
       box-sizing: border-box;
     }
+    :host([fill]) {
+      overflow: hidden;
+    }
+    :host([fill]) .inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
   `
 
   @property({ attribute: 'max-width', reflect: true })
   maxWidth: PageMaxWidth = 'md'
+
+  /** Fill the region's height instead of scrolling: the view inside divides its own scrolling. */
+  @property({ type: Boolean, reflect: true })
+  fill = false
 
   render() {
     return html`
