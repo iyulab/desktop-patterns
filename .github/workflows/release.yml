@@ -3,9 +3,14 @@ name: Release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -30,7 +35,7 @@ jobs:
           fi
       - name: Publish
         if: steps.check.outputs.already-published == 'false'
-        run: npm publish --access public
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Already published — nothing to do
