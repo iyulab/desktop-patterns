@@ -96,8 +96,29 @@ export class DpShell extends LitElement {
     }
   `
 
+  /**
+   * Whether the sidebar is open as a drawer below the desktop breakpoint. Above it the sidebar is
+   * always shown beside the content and this changes nothing. The consumer owns it: start it closed,
+   * and set it back to false on `dp-shell-sidebar-close` (backdrop click or Escape) and after a
+   * place is picked in the drawer.
+   */
   @property({ type: Boolean, reflect: true, attribute: 'sidebar-open' })
   sidebarOpen = false
+
+  private readonly onKeydown = (e: KeyboardEvent) => {
+    if (e.key !== 'Escape' || e.defaultPrevented || !this.sidebarOpen) return
+    this.dispatchEvent(new DpShellSidebarCloseEvent())
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    document.addEventListener('keydown', this.onKeydown)
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('keydown', this.onKeydown)
+    super.disconnectedCallback()
+  }
 
   render() {
     return html`

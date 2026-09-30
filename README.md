@@ -33,7 +33,7 @@ import '@iyulab/desktop-patterns'
 ## Usage
 
 ```html
-<dp-shell sidebar-open>
+<dp-shell>
   <dp-sidebar slot="sidebar" active-id="overview" header="My App" id="nav"></dp-sidebar>
   <dp-toolbar slot="toolbar" heading="My App" show-toggle></dp-toolbar>
   <dp-page>
@@ -51,13 +51,21 @@ document.querySelector<HTMLElementTagNameMap['dp-sidebar']>('#nav')!.items = [
   { id: 'overview', icon: '■', label: 'Overview' },
 ]
 
+const shell = document.querySelector('dp-shell')!
 document.querySelector('dp-sidebar')!.addEventListener('dp-sidebar-select', (e) => {
   // consumer owns activeId / routing
+  shell.sidebarOpen = false // a drawer gives way to what was picked
 })
 document.querySelector('dp-toolbar')!.addEventListener('dp-toolbar-toggle', () => {
-  // consumer owns sidebar-open state on dp-shell
+  shell.sidebarOpen = !shell.sidebarOpen
 })
+shell.addEventListener('dp-shell-sidebar-close', () => (shell.sidebarOpen = false)) // backdrop, Escape
 ```
+
+Below the desktop breakpoint (1024px) the sidebar is a drawer over the content, open while
+`sidebar-open` is set; at and above it the sidebar always sits beside the content and `sidebar-open`
+changes nothing. The consumer owns that state — start it closed, and close it when the shell asks
+(backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
 
 ### Sidebar items: links, groups, icons, actions
 

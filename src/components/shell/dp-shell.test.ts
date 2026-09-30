@@ -33,6 +33,27 @@ describe('dp-shell', () => {
     expect(fired).to.be.true
   })
 
+  it('dispatches dp-shell-sidebar-close on Escape while the drawer is open', async () => {
+    const el = await fixture<DpShell>(html`<dp-shell sidebar-open></dp-shell>`)
+    let fired = 0
+    el.addEventListener('dp-shell-sidebar-close', () => fired++)
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    expect(fired).to.equal(1)
+  })
+
+  it('leaves Escape alone while the drawer is closed, or when something else took it', async () => {
+    const el = await fixture<DpShell>(html`<dp-shell></dp-shell>`)
+    let fired = 0
+    el.addEventListener('dp-shell-sidebar-close', () => fired++)
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    el.sidebarOpen = true
+    await el.updateComplete
+    const taken = new KeyboardEvent('keydown', { key: 'Escape', cancelable: true })
+    taken.preventDefault()
+    document.dispatchEvent(taken)
+    expect(fired).to.equal(0)
+  })
+
   it('does not mark the toolbar row as a drag region itself — whatever renders into the toolbar slot owns dragging, e.g. dp-toolbar\'s own part="drag-handle"', async () => {
     const el = await fixture<DpShell>(html`<dp-shell></dp-shell>`)
     const toolbarRow = el.shadowRoot!.querySelector('.toolbar-row')!
