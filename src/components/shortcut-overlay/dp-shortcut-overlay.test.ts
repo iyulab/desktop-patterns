@@ -84,6 +84,23 @@ describe('dp-shortcut-overlay', () => {
     expect(named.shadowRoot!.querySelector('.close')!.getAttribute('aria-label')).to.equal('닫기')
   })
 
+  it('moves focus into the panel when it opens, keeps Tab there, and gives focus back when it closes', async () => {
+    const el = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay></dp-shortcut-overlay>`)
+    const before = document.createElement('button')
+    document.body.appendChild(before)
+    before.focus()
+    el.open = true
+    await el.updateComplete
+    const close = el.shadowRoot!.querySelector('.close')
+    expect(el.shadowRoot!.activeElement).to.equal(close)
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }))
+    expect(el.shadowRoot!.activeElement).to.equal(close)
+    el.open = false
+    await el.updateComplete
+    expect(document.activeElement).to.equal(before)
+    before.remove()
+  })
+
   it('is accessible when open', async () => {
     const el = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay .shortcuts=${SHORTCUTS} open></dp-shortcut-overlay>`)
     await expect(el).to.be.accessible()

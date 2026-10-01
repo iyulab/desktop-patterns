@@ -21,7 +21,9 @@ let instanceCount = 0
  * `shift+/` shortcut and read from a module-level, framework-hook-specific
  * registry; both are the consumer's responsibility here (see
  * docs/superpowers/specs/2026-09-02-desktop-patterns-design.md, the
- * dp-shortcut-overlay row). This component only dismisses itself (outside
+ * dp-shortcut-overlay row). While open it is a modal dialog: focus moves to
+ * its close button, Tab stays inside it, and focus goes back where it was once
+ * it closes. This component only dismisses itself (outside
  * click / Escape) by asking — it dispatches `dp-shortcut-overlay-dismiss`
  * rather than setting its own `open` to false, since `open` is the
  * consumer's state to own, not this component's.
@@ -134,19 +136,35 @@ export class DpShortcutOverlay extends LitElement {
   @state()
   private headingId = `dp-shortcut-overlay-heading-${++instanceCount}`
 
+  /** Where focus was when the panel opened, to go back to when it closes. */
+  #returnFocus?: HTMLElement
+
   #onKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault()
       this.#dismiss()
+    } else if (e.key === 'Tab') {
+      // A modal dialog keeps focus inside it; its one control is the close button.
+      e.preventDefault()
+      this.#closeButton()?.focus()
     }
+  }
+
+  #closeButton() {
+    return this.renderRoot.querySelector<HTMLButtonElement>('.close')
   }
 
   updated(changed: Map<string, unknown>) {
     if (!changed.has('open')) return
     if (this.open) {
       window.addEventListener('keydown', this.#onKeydown)
+      this.#returnFocus = deepActiveElement()
+      this.#closeButton()?.focus()
     } else {
       window.removeEventListener('keydown', this.#onKeydown)
+      // Only when it had been open: a panel that starts closed takes nothing back.
+      if (changed.get('open') === true) this.#returnFocus?.focus()
+      this.#returnFocus = undefined
     }
   }
 
@@ -194,6 +212,13 @@ export class DpShortcutOverlay extends LitElement {
       </div>
     `
   }
+}
+
+/** The focused element, looking into shadow roots. */
+function deepActiveElement(): HTMLElement | undefined {
+  let el = document.activeElement
+  while (el?.shadowRoot?.activeElement) el = el.shadowRoot.activeElement
+  return el instanceof HTMLElement && el !== document.body ? el : undefined
 }
 
 declare global {
