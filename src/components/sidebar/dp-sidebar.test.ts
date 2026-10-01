@@ -1,6 +1,6 @@
 import { fixture, html, expect, oneEvent } from '@open-wc/testing'
 import './dp-sidebar.js'
-import type { DpSidebar, DpSidebarActionEvent, DpSidebarSelectEvent } from './dp-sidebar.js'
+import type { DpSidebar, DpSidebarActionEvent, DpSidebarActivateEvent, DpSidebarSelectEvent } from './dp-sidebar.js'
 
 const ITEMS = [
   { id: 'overview', icon: '■', label: 'Overview' },
@@ -37,6 +37,27 @@ describe('dp-sidebar', () => {
     ;(buttons[0] as HTMLButtonElement).click()
     await el.updateComplete
     expect(fired).to.be.false
+  })
+
+  it('dispatches dp-sidebar-activate on every pick, the active item included, after any dp-sidebar-select', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} active-id="overview"></dp-sidebar>`)
+    const buttons = el.shadowRoot!.querySelectorAll('nav button')
+    const seen: string[] = []
+    el.addEventListener('dp-sidebar-select', (e) => seen.push(`select ${(e as DpSidebarSelectEvent).itemId}`))
+    el.addEventListener('dp-sidebar-activate', (e) => seen.push(`activate ${(e as DpSidebarActivateEvent).itemId}`))
+    ;(buttons[0] as HTMLButtonElement).click()
+    ;(buttons[1] as HTMLButtonElement).click()
+    expect(seen).to.deep.equal(['activate overview', 'select settings', 'activate settings'])
+  })
+
+  it('does not dispatch dp-sidebar-activate when dp-sidebar-select was cancelled: nothing was picked', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} active-id="overview"></dp-sidebar>`)
+    let activated = false
+    el.addEventListener('dp-sidebar-select', (e) => e.preventDefault())
+    el.addEventListener('dp-sidebar-activate', () => (activated = true))
+    ;(el.shadowRoot!.querySelectorAll('nav button')[1] as HTMLButtonElement).click()
+    expect(activated).to.be.false
+    expect(el.activeId).to.equal('overview')
   })
 
   it('renders bottom-pinned items in a separate group', async () => {

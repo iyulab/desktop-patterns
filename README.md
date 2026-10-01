@@ -66,7 +66,9 @@ function sync() {
 wide.addEventListener('change', sync)
 sidebar.addEventListener('dp-sidebar-select', () => {
   // consumer owns activeId / routing
-  shell.sidebarOpen = false // a drawer gives way to what was picked
+})
+sidebar.addEventListener('dp-sidebar-activate', () => {
+  shell.sidebarOpen = false // a drawer gives way to what was picked — the place already shown included
   sync()
 })
 toolbar.addEventListener('dp-toolbar-toggle', () => {
@@ -125,6 +127,9 @@ nav.setAttribute('nav-label', 'Main')                                 // names t
   items show, separated by a rule.
 - **Icons**: each item's icon is a slot named `icon-<id>` whose fallback is the item's `icon` text — slot any icon
   element (`<svg slot="icon-overview">`) to replace it.
+- **`dp-sidebar-activate`** fires on every pick of a navigation item, the active one included (after
+  `dp-sidebar-select` when the place changes; not when that was cancelled). Close a drawer on it: picking the
+  place already shown still means "take me there", and `dp-sidebar-select` does not fire for it.
 - **Bottom items are actions**: each click fires `dp-sidebar-action` (`itemId`) — every time, so a failed action can
   be retried — and never moves `aria-current`. (In 0.2.x they fired `dp-sidebar-select` and took the active mark.)
 

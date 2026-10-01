@@ -41,6 +41,18 @@ export class DpSidebarSelectEvent extends Event {
   }
 }
 
+/**
+ * Fired whenever a navigation item is picked, the active one included — after `dp-sidebar-select`
+ * when the place changes, alone when the item picked is the one already active. Not cancelable.
+ * It is the moment a drawer holding the sidebar gives way: picking the place already shown still
+ * means "take me there".
+ */
+export class DpSidebarActivateEvent extends Event {
+  constructor(public readonly itemId: string) {
+    super('dp-sidebar-activate', { bubbles: true, composed: true })
+  }
+}
+
 /** Fired on every click of a bottom item — those are actions, not places. */
 export class DpSidebarActionEvent extends Event {
   constructor(public readonly itemId: string) {
@@ -284,12 +296,14 @@ export class DpSidebar extends LitElement {
     // A modified click on a link opens it elsewhere (new tab/window) — the
     // page the user is on doesn't change, so neither does the selection.
     if (item.href !== undefined && (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) return
-    if (item.id === this.activeId) return
-    if (!this.dispatchEvent(new DpSidebarSelectEvent(item.id))) {
-      e.preventDefault()
-      return
+    if (item.id !== this.activeId) {
+      if (!this.dispatchEvent(new DpSidebarSelectEvent(item.id))) {
+        e.preventDefault()
+        return
+      }
+      this.activeId = item.id
     }
-    this.activeId = item.id
+    this.dispatchEvent(new DpSidebarActivateEvent(item.id))
   }
 
   #toggleGroup(id: string) {
