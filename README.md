@@ -85,6 +85,23 @@ collapsed rail (`dp-sidebar` `collapsed`). Give the toggle `expanded` so assisti
 which state it is in. The consumer owns both states — start the drawer closed, close it when the
 shell asks (backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
 
+### A list beside the item picked from it
+
+```html
+<dp-page fill max-width="full">
+  <dp-list-detail>
+    <nav slot="list" aria-label="People">…</nav>
+    <article>…the person picked…</article>
+  </dp-list-detail>
+</dp-page>
+```
+
+`dp-list-detail` puts the `list` slot beside the default slot, each scrolling on its own, the list
+`--dp-list-detail-list-width` wide (by default the sidebar's width — navigation, list and item read as
+1:1:rest). Below the desktop breakpoint there is room for one pane: the item while `detail-open` is
+set, the list otherwise. The consumer owns `detail-open` — set it when an item is picked, and give
+the item a way back that clears it, shown only below `desktopMinWidth`.
+
 ### Sidebar items: links, groups, icons, actions
 
 ```ts
@@ -125,7 +142,7 @@ import '@iyulab/desktop-patterns/tokens.css'
 
 Color/spacing/radius/typography all come from `desktop-compact`'s `--dc-*` tokens — this package adds
 only the structural dimensions `desktop-compact` has no concept of (`--dp-sidebar-width`,
-`--dp-sidebar-width-collapsed`, `--dp-header-height`). Every component ships with sane fallback
+`--dp-sidebar-width-collapsed`, `--dp-header-height`, `--dp-list-detail-list-width`). Every component ships with sane fallback
 values, so it still renders correctly even without either stylesheet.
 
 ## Platform boundary — drag regions
@@ -147,11 +164,12 @@ dp-toolbar[drag-region]::part(drag-handle) {
 `toolbar`, so ownership of the drag handle stays entirely with whatever renders there (typically
 `dp-toolbar`).
 
-## Components (v1 — complete, 5/5)
+## Components
 
 | Component | Description |
 |---|---|
 | `dp-page` | Scrollable content region with a centered, max-width column — the page-body every view renders into. With `fill` it does not scroll and its column is as tall as the region, for a view that scrolls its own parts (a list beside the item open) |
+| `dp-list-detail` | A list beside the item picked from it (master-detail) — each pane scrolls on its own; one pane at a time below 1024px, the item while `detail-open` is set |
 | `dp-sidebar` | App-shell navigation rail — expanded/collapsed states, an optional pinned bottom group, a `footer` slot for whatever a consumer wants to anchor there |
 | `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional sidebar toggle (drawer in a narrow window, collapse in a wide one), a right-side `actions` slot |
 | `dp-shell` | Top-level layout composing `sidebar`/`toolbar`/`banner`/main-content regions, with a responsive drawer (backdrop + overlay sidebar) below a 1024px breakpoint |

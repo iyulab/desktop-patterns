@@ -30,6 +30,11 @@
       "import": "./dist/page.js",
       "default": "./dist/page.js"
     },
+    "./list-detail": {
+      "types": "./dist/components/list-detail/dp-list-detail.d.ts",
+      "import": "./dist/list-detail.js",
+      "default": "./dist/list-detail.js"
+    },
     "./sidebar": {
       "types": "./dist/components/sidebar/dp-sidebar.d.ts",
       "import": "./dist/sidebar.js",
@@ -77,6 +82,7 @@
     "@types/mocha": "^10.0.10",
     "@web/dev-server-esbuild": "^2.0.0",
     "@web/test-runner": "^1.0.0",
+    "@web/test-runner-commands": "^1.0.1",
     "axe-core": "^4.13.0",
     "storybook": "^10.6.0",
     "typescript": "^6.0.3",

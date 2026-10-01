@@ -1,5 +1,6 @@
 export * from './breakpoints.js'
 export * from './components/page/dp-page.js'
+export * from './components/list-detail/dp-list-detail.js'
 export * from './components/sidebar/dp-sidebar.js'
 export * from './components/toolbar/dp-toolbar.js'
 export * from './components/shell/dp-shell.js'
