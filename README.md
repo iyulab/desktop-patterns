@@ -51,22 +51,39 @@ document.querySelector<HTMLElementTagNameMap['dp-sidebar']>('#nav')!.items = [
   { id: 'overview', icon: '■', label: 'Overview' },
 ]
 
+import { desktopMinWidth } from '@iyulab/desktop-patterns'
+
 const shell = document.querySelector('dp-shell')!
-document.querySelector('dp-sidebar')!.addEventListener('dp-sidebar-select', (e) => {
+const sidebar = document.querySelector('dp-sidebar')!
+const toolbar = document.querySelector('dp-toolbar')!
+const wide = matchMedia(`(min-width: ${desktopMinWidth}px)`)
+let collapsed = false // the consumer's own state: a wide window's sidebar folded to its rail
+
+function sync() {
+  sidebar.collapsed = collapsed && wide.matches // a drawer always shows the whole sidebar
+  toolbar.expanded = wide.matches ? !collapsed : shell.sidebarOpen
+}
+wide.addEventListener('change', sync)
+sidebar.addEventListener('dp-sidebar-select', () => {
   // consumer owns activeId / routing
   shell.sidebarOpen = false // a drawer gives way to what was picked
+  sync()
 })
-document.querySelector('dp-toolbar')!.addEventListener('dp-toolbar-toggle', () => {
-  shell.sidebarOpen = !shell.sidebarOpen
+toolbar.addEventListener('dp-toolbar-toggle', () => {
+  if (wide.matches) collapsed = !collapsed
+  else shell.sidebarOpen = !shell.sidebarOpen
+  sync()
 })
-shell.addEventListener('dp-shell-sidebar-close', () => (shell.sidebarOpen = false)) // backdrop, Escape
+shell.addEventListener('dp-shell-sidebar-close', () => { shell.sidebarOpen = false; sync() }) // backdrop, Escape
 ```
 
-Below the desktop breakpoint (1024px) the sidebar is a drawer over the content, open while
-`sidebar-open` is set; at and above it the sidebar always sits beside the content and `sidebar-open`
-changes nothing, and `dp-toolbar` hides its toggle there. The breakpoint is exported as
-`desktopMinWidth` (and `desktopMedia` for a component's styles). The consumer owns that state — start it closed, and close it when the shell asks
-(backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
+Below the desktop breakpoint (`desktopMinWidth`, 1024px — `desktopMedia` for a component's styles)
+the sidebar is a drawer over the content, open while `sidebar-open` is set; at and above it the
+sidebar sits beside the content and `sidebar-open` changes nothing. The same toolbar toggle serves
+both widths: in a narrow window it opens the drawer, in a wide one it folds the sidebar to its
+collapsed rail (`dp-sidebar` `collapsed`). Give the toggle `expanded` so assistive technology hears
+which state it is in. The consumer owns both states — start the drawer closed, close it when the
+shell asks (backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
 
 ### Sidebar items: links, groups, icons, actions
 
@@ -136,7 +153,7 @@ dp-toolbar[drag-region]::part(drag-handle) {
 |---|---|
 | `dp-page` | Scrollable content region with a centered, max-width column — the page-body every view renders into. With `fill` it does not scroll and its column is as tall as the region, for a view that scrolls its own parts (a list beside the item open) |
 | `dp-sidebar` | App-shell navigation rail — expanded/collapsed states, an optional pinned bottom group, a `footer` slot for whatever a consumer wants to anchor there |
-| `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional sidebar drawer toggle (below the desktop breakpoint only), a right-side `actions` slot |
+| `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional sidebar toggle (drawer in a narrow window, collapse in a wide one), a right-side `actions` slot |
 | `dp-shell` | Top-level layout composing `sidebar`/`toolbar`/`banner`/main-content regions, with a responsive drawer (backdrop + overlay sidebar) below a 1024px breakpoint |
 | `dp-shortcut-overlay` | Display-only keyboard-shortcuts help panel — a `shortcuts` list + `open` flag; no registration/binding infrastructure (that stays the consumer's) |
 

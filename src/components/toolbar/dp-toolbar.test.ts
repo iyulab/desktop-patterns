@@ -28,17 +28,26 @@ describe('dp-toolbar', () => {
     expect(event.type).to.equal('dp-toolbar-toggle')
   })
 
-  it('hides the toggle at desktop width, where the sidebar is never a drawer', async () => {
+  it('shows the toggle at every width — narrow opens a drawer, wide folds the sidebar', async () => {
     const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
     const button = el.shadowRoot!.querySelector('.toggle') as HTMLButtonElement
     try {
-      await setViewport({ width: 1024, height: 700 })
-      expect(getComputedStyle(button).display).to.equal('none')
-      await setViewport({ width: 1023, height: 700 })
-      expect(getComputedStyle(button).display).to.not.equal('none')
+      for (const width of [1280, 1024, 800]) {
+        await setViewport({ width, height: 700 })
+        expect(getComputedStyle(button).display, `${width}px`).to.not.equal('none')
+      }
     } finally {
       await setViewport({ width: 800, height: 600 })
     }
+  })
+
+  it('announces whether the sidebar is shown in full', async () => {
+    const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
+    const button = () => el.shadowRoot!.querySelector('.toggle')!
+    expect(button().getAttribute('aria-expanded')).to.equal('false')
+    el.expanded = true
+    await el.updateComplete
+    expect(button().getAttribute('aria-expanded')).to.equal('true')
   })
 
   it('does not reflect drag-region unless set', async () => {
