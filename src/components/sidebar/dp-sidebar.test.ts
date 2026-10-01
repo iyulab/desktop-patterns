@@ -14,6 +14,14 @@ describe('dp-sidebar', () => {
     expect(buttons.length).to.equal(2)
   })
 
+  it('shows the header label as given, without changing its case', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} header="Notes of Ana"></dp-sidebar>`)
+    const label = el.shadowRoot!.querySelector('.header-label') as HTMLElement
+    expect(label.textContent).to.equal('Notes of Ana')
+    expect(getComputedStyle(label).textTransform).to.equal('none')
+    expect(label.innerText).to.equal('Notes of Ana')
+  })
+
   it('marks the active item with aria-current="page"', async () => {
     const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} active-id="settings"></dp-sidebar>`)
     const buttons = [...el.shadowRoot!.querySelectorAll('nav button')]

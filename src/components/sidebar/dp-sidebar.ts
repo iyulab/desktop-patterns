@@ -104,8 +104,6 @@ export class DpSidebar extends LitElement {
       font-size: var(--dc-font-size-xs, 11px);
       font-weight: var(--dc-font-weight-medium, 500);
       color: var(--dc-color-text-secondary, #55555c);
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
     }
     nav {
       flex: 1;

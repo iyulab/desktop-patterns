@@ -7,6 +7,11 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Fixed
+
+- `dp-sidebar` shows its header label as given: it no longer turns it to capitals, which changed a name the app put
+  there (a folder's or a person's) into a different spelling.
+
 ## [0.7.0] - 2026-10-01
 
 ### Added
