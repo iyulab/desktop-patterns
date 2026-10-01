@@ -4,7 +4,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 function discoverComponentEntries(): Record<string, string> {
-  const entries: Record<string, string> = { index: 'src/index.ts' }
+  const entries: Record<string, string> = { index: 'src/index.ts', breakpoints: 'src/breakpoints.ts' }
   const componentsDir = join(process.cwd(), 'src/components')
   if (!existsSync(componentsDir)) return entries
   for (const dir of readdirSync(componentsDir)) {

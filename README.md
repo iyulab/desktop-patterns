@@ -51,7 +51,7 @@ document.querySelector<HTMLElementTagNameMap['dp-sidebar']>('#nav')!.items = [
   { id: 'overview', icon: '■', label: 'Overview' },
 ]
 
-import { desktopMinWidth } from '@iyulab/desktop-patterns'
+import { desktopMinWidth } from '@iyulab/desktop-patterns/breakpoints' // no elements registered
 
 const shell = document.querySelector('dp-shell')!
 const sidebar = document.querySelector('dp-sidebar')!

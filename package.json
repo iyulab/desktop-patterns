@@ -25,6 +25,11 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./breakpoints": {
+      "types": "./dist/breakpoints.d.ts",
+      "import": "./dist/breakpoints.js",
+      "default": "./dist/breakpoints.js"
+    },
     "./page": {
       "types": "./dist/components/page/dp-page.d.ts",
       "import": "./dist/page.js",
