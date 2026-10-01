@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { desktopMedia } from '../../breakpoints.js'
 
 export class DpToolbarToggleEvent extends Event {
   constructor() {
@@ -9,8 +10,9 @@ export class DpToolbarToggleEvent extends Event {
 
 /**
  * App-shell header bar: a `heading` (optionally overridden per-view by
- * `subtitle`), an optional collapse/expand toggle, and a right-side
- * `actions` slot. Pure layout — this repo does not call any platform API.
+ * `subtitle`), an optional toggle for `dp-shell`'s sidebar drawer — shown
+ * only below the desktop breakpoint, where the sidebar is a drawer — and a
+ * right-side `actions` slot. Pure layout — this repo does not call any platform API.
  *
  * Named `heading`, not `title` — matches dc-section-heading's own
  * established convention for this kind of headline text, and avoids
@@ -89,6 +91,13 @@ export class DpToolbar extends LitElement {
       outline: 2px solid var(--dc-color-accent, #2563eb);
       outline-offset: 2px;
     }
+    /* At desktop width dp-shell's sidebar is always beside the content: a drawer toggle there
+       would do nothing. */
+    @media ${desktopMedia} {
+      .toggle {
+        display: none;
+      }
+    }
     .drag-handle {
       flex: 1;
       align-self: stretch;
@@ -107,6 +116,7 @@ export class DpToolbar extends LitElement {
   @property()
   subtitle = ''
 
+  /** Shows the sidebar drawer toggle. It is hidden at and above the desktop breakpoint. */
   @property({ type: Boolean, attribute: 'show-toggle' })
   showToggle = false
 

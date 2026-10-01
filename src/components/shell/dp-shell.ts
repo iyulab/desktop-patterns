@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { desktopMedia } from '../../breakpoints.js'
 
 export class DpShellSidebarCloseEvent extends Event {
   constructor() {
@@ -61,7 +62,7 @@ export class DpShell extends LitElement {
       inset-inline-start: 0;
       z-index: 40;
     }
-    @media (min-width: 1024px) {
+    @media ${desktopMedia} {
       /* Must match (or exceed) \`:host([sidebar-open]) .sidebar-region\`'s
          specificity above (0,3,0) — a bare \`.sidebar-region\` here is only
          (0,1,0), so on equal-or-narrower cascades the desktop override would

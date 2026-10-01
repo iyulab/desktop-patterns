@@ -1,4 +1,5 @@
 import { fixture, html, expect, oneEvent } from '@open-wc/testing'
+import { setViewport } from '@web/test-runner-commands'
 import './dp-toolbar.js'
 import type { DpToolbar } from './dp-toolbar.js'
 
@@ -25,6 +26,19 @@ describe('dp-toolbar', () => {
     setTimeout(() => button.click())
     const event = await oneEvent(el, 'dp-toolbar-toggle')
     expect(event.type).to.equal('dp-toolbar-toggle')
+  })
+
+  it('hides the toggle at desktop width, where the sidebar is never a drawer', async () => {
+    const el = await fixture<DpToolbar>(html`<dp-toolbar heading="My App" show-toggle></dp-toolbar>`)
+    const button = el.shadowRoot!.querySelector('.toggle') as HTMLButtonElement
+    try {
+      await setViewport({ width: 1024, height: 700 })
+      expect(getComputedStyle(button).display).to.equal('none')
+      await setViewport({ width: 1023, height: 700 })
+      expect(getComputedStyle(button).display).to.not.equal('none')
+    } finally {
+      await setViewport({ width: 800, height: 600 })
+    }
   })
 
   it('does not reflect drag-region unless set', async () => {

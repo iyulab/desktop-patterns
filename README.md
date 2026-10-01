@@ -64,7 +64,8 @@ shell.addEventListener('dp-shell-sidebar-close', () => (shell.sidebarOpen = fals
 
 Below the desktop breakpoint (1024px) the sidebar is a drawer over the content, open while
 `sidebar-open` is set; at and above it the sidebar always sits beside the content and `sidebar-open`
-changes nothing. The consumer owns that state — start it closed, and close it when the shell asks
+changes nothing, and `dp-toolbar` hides its toggle there. The breakpoint is exported as
+`desktopMinWidth` (and `desktopMedia` for a component's styles). The consumer owns that state — start it closed, and close it when the shell asks
 (backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
 
 ### Sidebar items: links, groups, icons, actions
@@ -135,7 +136,7 @@ dp-toolbar[drag-region]::part(drag-handle) {
 |---|---|
 | `dp-page` | Scrollable content region with a centered, max-width column — the page-body every view renders into. With `fill` it does not scroll and its column is as tall as the region, for a view that scrolls its own parts (a list beside the item open) |
 | `dp-sidebar` | App-shell navigation rail — expanded/collapsed states, an optional pinned bottom group, a `footer` slot for whatever a consumer wants to anchor there |
-| `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional collapse toggle, a right-side `actions` slot |
+| `dp-toolbar` | App-shell header bar — `heading`/`subtitle`, an optional sidebar drawer toggle (below the desktop breakpoint only), a right-side `actions` slot |
 | `dp-shell` | Top-level layout composing `sidebar`/`toolbar`/`banner`/main-content regions, with a responsive drawer (backdrop + overlay sidebar) below a 1024px breakpoint |
 | `dp-shortcut-overlay` | Display-only keyboard-shortcuts help panel — a `shortcuts` list + `open` flag; no registration/binding infrastructure (that stays the consumer's) |
 
