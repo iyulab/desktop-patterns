@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-10-02
+
+### Changed
+
+- The `@iyulab/desktop-compact` peer range takes 0.11.
+
 ### Fixed
 
 - `dp-sidebar` shows its header label as given: it no longer turns it to capitals, which changed a name the app put
