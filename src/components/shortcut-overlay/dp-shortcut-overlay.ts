@@ -112,7 +112,7 @@ export class DpShortcutOverlay extends LitElement {
       background: var(--dc-color-surface-hover, #ececed);
       border: 1px solid var(--dc-color-border, #e2e2e4);
       color: var(--dc-color-text-secondary, #55555c);
-      font-family: ui-monospace, monospace;
+      font-family: var(--dc-font-mono, ui-monospace, monospace);
       font-size: 10px;
     }
   `

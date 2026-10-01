@@ -7,6 +7,10 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Changed
+
+- The shortcut overlay's key caps read the `--dc-font-mono` token, so an app's fixed-width font applies there too.
+
 ## [0.6.1] - 2026-10-01
 
 ### Changed
