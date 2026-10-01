@@ -35,6 +35,11 @@
       "import": "./dist/page.js",
       "default": "./dist/page.js"
     },
+    "./page-header": {
+      "types": "./dist/components/page-header/dp-page-header.d.ts",
+      "import": "./dist/page-header.js",
+      "default": "./dist/page-header.js"
+    },
     "./list-detail": {
       "types": "./dist/components/list-detail/dp-list-detail.d.ts",
       "import": "./dist/list-detail.js",

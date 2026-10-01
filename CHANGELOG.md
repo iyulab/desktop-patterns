@@ -7,6 +7,10 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-page-header`: eyebrow, heading (`<h2>`), description and actions, ruled off below; reads the `--dc-page-*` role tokens
+
 ## [0.6.2] - 2026-10-01
 
 ### Changed
