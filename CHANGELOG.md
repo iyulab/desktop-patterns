@@ -6,3 +6,9 @@ All notable changes to `@iyulab/desktop-patterns` are documented here. The forma
 release may change the API). Releases up to 0.6.0 are recorded in the git history.
 
 ## [Unreleased]
+
+## [0.6.1] - 2026-10-01
+
+### Changed
+
+- The peer range of `@iyulab/desktop-compact` takes 0.9 as well.
