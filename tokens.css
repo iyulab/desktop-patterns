@@ -2,11 +2,26 @@
  * Structural tokens for @iyulab/desktop-patterns.
  *
  * This file adds ONLY the dimensions this layer introduces that
- * @iyulab/desktop-compact has no concept of (sidebar/header sizing). Color,
- * spacing-scale, radius, and typography tokens are NOT duplicated here —
- * import @iyulab/desktop-compact/tokens.css alongside this file; every
+ * @iyulab/desktop-compact has no concept of (sidebar/header sizing), and
+ * declares the sidebar's two role tokens. Color, spacing-scale, radius, and
+ * typography tokens are NOT duplicated here — import
+ * @iyulab/desktop-compact/tokens.css alongside this file; every
  * desktop-patterns component consumes --dc-* directly.
+ *
+ * The role tokens are declared with @property, never given a value at :root:
+ * a var() value set there would resolve at :root and stop following an app's
+ * subtree override of the base token it points to.
  */
+/* dp-sidebar's ground. Unset, the sidebar uses var(--dc-color-surface, #f7f7f8). */
+@property --dp-sidebar-bg {
+  syntax: '*';
+  inherits: true;
+}
+/* dp-sidebar's item text size. Unset, the sidebar uses var(--dc-font-size-sm, 12px). */
+@property --dp-sidebar-item-size {
+  syntax: '*';
+  inherits: true;
+}
 :root {
   --dp-sidebar-width: 220px;
   --dp-sidebar-width-collapsed: 52px;

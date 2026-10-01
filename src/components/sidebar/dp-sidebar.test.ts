@@ -244,3 +244,68 @@ describe('dp-sidebar — icons, landmark name, bottom actions', () => {
     expect(action.hasAttribute('aria-current')).to.be.false
   })
 })
+
+describe('dp-sidebar role tokens', () => {
+  const items = [{ id: 'a', icon: '◉', label: 'Clients' }, { id: 'b', icon: '▦', label: 'Report' }]
+
+  const loadTokens = async () => {
+    const added: HTMLLinkElement[] = []
+    for (const href of ['/node_modules/@iyulab/desktop-compact/tokens.css', '/tokens.css']) {
+      const link = Object.assign(document.createElement('link'), { rel: 'stylesheet', href })
+      const loaded = new Promise((r) => link.addEventListener('load', r))
+      document.head.append(link)
+      added.push(link)
+      await loaded
+    }
+    return () => added.forEach((l) => l.remove())
+  }
+
+  it('keeps its previous look without the tokens', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${items} active-id="a"></dp-sidebar>`)
+    const active = el.shadowRoot!.querySelector('[aria-current=page]')!
+    expect(getComputedStyle(el).backgroundColor).to.equal('rgb(247, 247, 248)')
+    expect(getComputedStyle(active).backgroundColor).to.equal('rgba(0, 0, 0, 0)')
+    expect(getComputedStyle(active).borderLeftColor).to.equal('rgb(37, 99, 235)')
+    expect(getComputedStyle(active).fontSize).to.equal('12px')
+  })
+
+  it('reads the sidebar, selection and indicator tokens', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${items} active-id="a"
+      style="--dp-sidebar-bg: rgb(1, 1, 1); --dc-selection-bg: rgb(2, 2, 2); --dc-indicator-color: rgb(3, 3, 3); --dp-sidebar-item-size: 14px"></dp-sidebar>`)
+    const active = el.shadowRoot!.querySelector('[aria-current=page]')!
+    expect(getComputedStyle(el).backgroundColor).to.equal('rgb(1, 1, 1)')
+    expect(getComputedStyle(active).backgroundColor).to.equal('rgb(2, 2, 2)')
+    expect(getComputedStyle(active).borderLeftColor).to.equal('rgb(3, 3, 3)')
+    expect(getComputedStyle(active).fontSize).to.equal('14px')
+  })
+
+  it('keeps its previous look with both tokens files loaded', async () => {
+    const unload = await loadTokens()
+    try {
+      const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${items} active-id="a"></dp-sidebar>`)
+      const active = el.shadowRoot!.querySelector('[aria-current=page]')!
+      expect(getComputedStyle(el).backgroundColor).to.equal('rgb(247, 247, 248)')
+      expect(getComputedStyle(active).backgroundColor).to.equal('rgba(0, 0, 0, 0)')
+      expect(getComputedStyle(active).borderLeftColor).to.equal('rgb(37, 99, 235)')
+      expect(getComputedStyle(active).fontSize).to.equal('12px')
+    } finally {
+      unload()
+    }
+  })
+
+  it('follows a subtree override of the base surface token with both tokens files loaded', async () => {
+    const unload = await loadTokens()
+    try {
+      const wrap = await fixture<HTMLDivElement>(html`<div style="--dc-color-surface: rgb(1, 2, 3)"><dp-sidebar .items=${items} active-id="a"></dp-sidebar></div>`)
+      const el = wrap.querySelector('dp-sidebar')!
+      expect(getComputedStyle(el).backgroundColor).to.equal('rgb(1, 2, 3)')
+    } finally {
+      unload()
+    }
+  })
+
+  it('shows the active mark in the collapsed rail too', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar collapsed .items=${items} active-id="a" style="--dc-indicator-color: rgb(3, 3, 3)"></dp-sidebar>`)
+    expect(getComputedStyle(el.shadowRoot!.querySelector('[aria-current=page]')!).borderLeftColor).to.equal('rgb(3, 3, 3)')
+  })
+})

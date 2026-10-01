@@ -11,6 +11,10 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 - `dp-page-header`: eyebrow, heading (`<h2>`), description and actions, ruled off below; reads the `--dc-page-*` role tokens
 
+### Changed
+
+- `dp-sidebar` reads `--dp-sidebar-bg`, `--dp-sidebar-item-size`, and `--dc-selection-bg` / `--dc-indicator-color` for the active item; defaults keep its look. The two `--dp-sidebar-*` tokens are declared in `tokens.css` with `@property` (no value at `:root`), so a subtree override of `--dc-color-surface` / `--dc-font-size-sm` still reaches the sidebar
+
 ## [0.6.2] - 2026-10-01
 
 ### Changed

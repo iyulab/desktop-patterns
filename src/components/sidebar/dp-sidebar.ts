@@ -79,7 +79,7 @@ export class DpSidebar extends LitElement {
       height: 100%;
       box-sizing: border-box;
       width: var(--dp-sidebar-width, 220px);
-      background: var(--dc-color-surface, #f7f7f8);
+      background: var(--dp-sidebar-bg, var(--dc-color-surface, #f7f7f8));
       border-right: 1px solid var(--dc-color-border, #e2e2e4);
       font-family: var(--dc-font-family, system-ui, sans-serif);
     }
@@ -128,7 +128,7 @@ export class DpSidebar extends LitElement {
       gap: var(--dc-space-3, 12px);
       padding: var(--dc-space-2, 8px) var(--dc-space-3, 12px);
       font: inherit;
-      font-size: var(--dc-font-size-sm, 12px);
+      font-size: var(--dp-sidebar-item-size, var(--dc-font-size-sm, 12px));
       color: var(--dc-color-text-secondary, #55555c);
       text-align: left;
       text-decoration: none;
@@ -158,12 +158,17 @@ export class DpSidebar extends LitElement {
        variant; falling back to the fill accent keeps every existing consumer
        rendering exactly as before. */
     .item[aria-current='page'] {
-      border-left-color: var(--dc-color-accent, #2563eb);
+      border-left-color: var(--dc-indicator-color, var(--dc-color-accent, #2563eb));
+      background: var(--dc-selection-bg, transparent);
       color: var(--dc-color-accent-text, var(--dc-color-accent, #2563eb));
       font-weight: var(--dc-font-weight-medium, 500);
     }
     .item:hover {
       background: var(--dc-color-surface-hover, #ececed);
+    }
+    /* Declared after :hover so hovering the active item keeps its selection ground. */
+    .item[aria-current='page']:hover {
+      background: var(--dc-selection-bg, var(--dc-color-surface-hover, #ececed));
     }
     .item:focus-visible {
       outline: 2px solid var(--dc-color-accent, #2563eb);
