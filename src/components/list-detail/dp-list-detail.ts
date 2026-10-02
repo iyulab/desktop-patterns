@@ -56,6 +56,21 @@ export class DpListDetail extends LitElement {
         display: block;
       }
     }
+    /* On paper only the item picked is printed, at its full length. */
+    @media print {
+      :host {
+        display: block;
+        height: auto;
+      }
+      :host([detail-open]) .list,
+      .list {
+        display: none;
+      }
+      .detail {
+        display: block;
+        overflow: visible;
+      }
+    }
   `
 
   /** Below desktop width, show the picked item instead of the list. Above it both are always shown. */

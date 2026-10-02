@@ -43,6 +43,18 @@ export class DpPage extends LitElement {
       flex-direction: column;
       height: 100%;
     }
+    /* On paper the page runs on across pages, filled or not. */
+    @media print {
+      :host,
+      :host([fill]) {
+        height: auto;
+        overflow: visible;
+      }
+      :host([fill]) .inner {
+        display: block;
+        height: auto;
+      }
+    }
   `
 
   @property({ attribute: 'max-width', reflect: true })

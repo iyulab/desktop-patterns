@@ -95,6 +95,29 @@ export class DpShell extends LitElement {
       flex: 1;
       overflow: auto;
     }
+    /* On paper the shell is the document: no sidebar or toolbar, and nothing held to the window's
+       height — what scrolls on screen runs on across pages. */
+    @media print {
+      :host {
+        display: block;
+        width: auto;
+        height: auto;
+        overflow: visible;
+      }
+      /* As specific as the sidebar-open rule above, which would otherwise keep the sidebar. */
+      :host([sidebar-open]) .sidebar-region,
+      .sidebar-region,
+      .toolbar-row,
+      .backdrop {
+        display: none;
+      }
+      .main-column {
+        display: block;
+      }
+      main {
+        overflow: visible;
+      }
+    }
   `
 
   /**

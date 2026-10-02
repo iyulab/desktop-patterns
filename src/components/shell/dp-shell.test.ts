@@ -1,4 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing'
+import { emulateMedia } from '@web/test-runner-commands'
 import './dp-shell.js'
 import type { DpShell } from './dp-shell.js'
 
@@ -71,5 +72,25 @@ describe('dp-shell', () => {
   it('is accessible', async () => {
     const el = await fixture<DpShell>(html`<dp-shell><p>content</p></dp-shell>`)
     await expect(el).to.be.accessible()
+  })
+
+  describe('on paper', () => {
+    afterEach(() => emulateMedia({ media: 'screen' }))
+
+    it('prints what is in main at its full length, without the sidebar or the toolbar', async () => {
+      await emulateMedia({ media: 'print' })
+      const el = await fixture<DpShell>(html`<dp-shell sidebar-open>
+        <nav slot="sidebar">menu</nav>
+        <div slot="toolbar">tools</div>
+        <p style="height: 3000px">content</p>
+      </dp-shell>`)
+      const part = (selector: string) => getComputedStyle(el.shadowRoot!.querySelector(selector)!)
+      expect(part('.sidebar-region').display).to.equal('none')
+      expect(part('.toolbar-row').display).to.equal('none')
+      expect(part('.backdrop').display).to.equal('none')
+      expect(part('main').overflow).to.equal('visible')
+      expect(getComputedStyle(el).overflow).to.equal('visible')
+      expect(el.getBoundingClientRect().height).to.be.at.least(3000)
+    })
   })
 })

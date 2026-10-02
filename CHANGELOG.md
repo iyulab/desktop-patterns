@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Fixed
+
+- Printing a page laid out in `dp-shell` printed only what fitted in the window: the shell, `dp-list-detail` and a
+  `fill` `dp-page` held their content to the window's height. On paper the shell now drops its sidebar and toolbar,
+  `dp-list-detail` prints only the item picked, and every scrolling region runs on across pages.
+
 ## [0.7.1] - 2026-10-02
 
 ### Changed

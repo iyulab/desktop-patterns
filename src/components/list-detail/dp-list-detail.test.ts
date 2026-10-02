@@ -1,5 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing'
-import { setViewport } from '@web/test-runner-commands'
+import { emulateMedia, setViewport } from '@web/test-runner-commands'
 import './dp-list-detail.js'
 import type { DpListDetail } from './dp-list-detail.js'
 
@@ -70,5 +70,22 @@ describe('dp-list-detail', () => {
   it('is accessible', async () => {
     const el = (await fixture(view())).querySelector('dp-list-detail')!
     await expect(el).to.be.accessible()
+  })
+
+  it('on paper prints only the item picked, at its full length, at any width', async () => {
+    await emulateMedia({ media: 'print' })
+    try {
+      for (const width of [600, 1280]) {
+        await setViewport({ width, height: 800 })
+        const el = (await fixture(view())).querySelector('dp-list-detail')!
+        el.detailOpen = true
+        await el.updateComplete
+        expect(getComputedStyle(pane(el, 'list')).display).to.equal('none')
+        expect(getComputedStyle(pane(el, 'detail')).overflow).to.equal('visible')
+        expect(pane(el, 'detail').getBoundingClientRect().height).to.be.at.least(600)
+      }
+    } finally {
+      await emulateMedia({ media: 'screen' })
+    }
   })
 })

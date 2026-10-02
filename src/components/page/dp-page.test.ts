@@ -1,4 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing'
+import { emulateMedia } from '@web/test-runner-commands'
 import './dp-page.js'
 import type { DpPage } from './dp-page.js'
 
@@ -47,5 +48,16 @@ describe('dp-page', () => {
   it('is accessible', async () => {
     const el = await fixture<DpPage>(html`<dp-page><p>hello</p></dp-page>`)
     await expect(el).to.be.accessible()
+  })
+
+  it('on paper runs on across pages, filled or not', async () => {
+    await emulateMedia({ media: 'print' })
+    try {
+      const el = (await fixture(html`<div style="height: 100px"><dp-page fill><p style="height: 2000px">long</p></dp-page></div>`)).querySelector('dp-page')!
+      expect(getComputedStyle(el).overflowY).to.equal('visible')
+      expect(el.getBoundingClientRect().height).to.be.at.least(2000)
+    } finally {
+      await emulateMedia({ media: 'screen' })
+    }
   })
 })
