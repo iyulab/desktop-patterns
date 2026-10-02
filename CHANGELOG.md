@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-10-03
+
 ### Fixed
 
 - Printing a page laid out in `dp-shell` printed only what fitted in the window: the shell, `dp-list-detail` and a
