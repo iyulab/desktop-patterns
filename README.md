@@ -200,6 +200,10 @@ npm run build          # per-component ESM output, type declarations
 npm run storybook      # interactive component browser
 ```
 
+`tsc` is TypeScript 7 (`@typescript/native`), while `typescript` resolves to `@typescript/typescript6`:
+TypeScript 7 has no JavaScript compiler API yet, and the declaration build reads one. The alias goes
+once `vite-plugin-dts` runs on TypeScript 7 alone.
+
 `@iyulab/desktop-compact` is a **peer** dependency: this package reads its `--dc-*` tokens but never
 imports its code, so the consumer installs one copy and both packages share it. A regular dependency
 would give a consumer on a newer `desktop-compact` minor a second, unused copy nested under this
