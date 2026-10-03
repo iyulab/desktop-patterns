@@ -253,6 +253,56 @@ describe('dp-sidebar — icons, landmark name, bottom actions', () => {
   })
 })
 
+describe('dp-sidebar — pinned places', () => {
+  const MAIN = [{ id: 'home', icon: '⌂', label: 'Home' }]
+  const PINNED = [
+    { id: 'help', icon: '?', label: 'Help' },
+    { id: 'settings', icon: '⚙', label: 'Settings' },
+  ]
+
+  it('renders pinned places inside the navigation landmark, below the scrolling list', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${MAIN} .pinnedItems=${PINNED} active-id="home"></dp-sidebar>`)
+    const nav = el.shadowRoot!.querySelector('nav')!
+    const pinned = nav.querySelector('.pinned')!
+    expect([...pinned.querySelectorAll('.label')].map((l) => l.textContent)).to.deep.equal(['Help', 'Settings'])
+    expect(nav.querySelector('.nav-items')!.compareDocumentPosition(pinned) & Node.DOCUMENT_POSITION_FOLLOWING).to.not.equal(0)
+  })
+
+  it('marks a pinned place as the current page when it is the active one — a place, not an action', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${MAIN} .pinnedItems=${PINNED} active-id="settings"></dp-sidebar>`)
+    const current = el.shadowRoot!.querySelectorAll('[aria-current="page"]')
+    expect(current.length).to.equal(1)
+    expect(current[0].closest('.pinned')).to.not.equal(null)
+    expect(current[0].textContent).to.contain('Settings')
+  })
+
+  it('selects a pinned place with dp-sidebar-select, like any other place', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${MAIN} .pinnedItems=${PINNED} active-id="home"></dp-sidebar>`)
+    const settings = el.shadowRoot!.querySelectorAll<HTMLButtonElement>('.pinned .item')[1]
+    setTimeout(() => settings.click())
+    const e = (await oneEvent(el, 'dp-sidebar-select')) as DpSidebarSelectEvent
+    expect(e.itemId).to.equal('settings')
+    await el.updateComplete
+    expect(el.activeId).to.equal('settings')
+    expect(settings.getAttribute('aria-current')).to.equal('page')
+  })
+
+  it('omits the pinned block when no pinnedItems are given', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${MAIN} active-id="home"></dp-sidebar>`)
+    expect(el.shadowRoot!.querySelector('.pinned')).to.equal(null)
+  })
+
+  it('is accessible with pinned places and actions (expanded and collapsed)', async () => {
+    const el = await fixture<DpSidebar>(
+      html`<dp-sidebar .items=${MAIN} .pinnedItems=${PINNED} .bottomItems=${[{ id: 'feedback', icon: '✉', label: 'Feedback' }]} active-id="settings" nav-label="Main"></dp-sidebar>`
+    )
+    await expect(el).to.be.accessible()
+    el.collapsed = true
+    await el.updateComplete
+    await expect(el).to.be.accessible()
+  })
+})
+
 describe('dp-sidebar role tokens', () => {
   const items = [{ id: 'a', icon: '◉', label: 'Clients' }, { id: 'b', icon: '▦', label: 'Report' }]
 

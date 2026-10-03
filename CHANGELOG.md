@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-sidebar` `pinnedItems`: places kept at the foot of the rail, inside the navigation landmark and below the
+  scrolling list. They select and show as the current page like any other item; `bottomItems` stay actions. A
+  settings or help page placed among the bottom actions had no current-page mark while it was shown.
+
 ### Changed
 
 - Development: `tsc` (and `npm run typecheck`) is TypeScript 7, installed as `@typescript/native`; `typescript`

@@ -107,7 +107,19 @@ export class DpSidebar extends LitElement {
     }
     nav {
       flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-items {
+      flex: 1;
       overflow-y: auto;
+      padding: var(--dc-space-1, 4px) 0;
+    }
+    /* Places pinned to the foot of the rail stay in view however long the list above scrolls. */
+    .pinned {
+      flex-shrink: 0;
+      border-top: 1px solid var(--dc-color-border, #e2e2e4);
       padding: var(--dc-space-1, 4px) 0;
     }
     .bottom-group {
@@ -192,7 +204,15 @@ export class DpSidebar extends LitElement {
   @property({ type: Array })
   items: SidebarEntry[] = []
 
-  /** Actions, not places — see `DpSidebarActionEvent`. */
+  /**
+   * Places pinned to the foot of the rail — a settings or help page an app keeps out of its main
+   * list. They are navigation like `items` (same `dp-sidebar-select`, `aria-current`, links) and
+   * sit inside the same landmark, below the scrolling list.
+   */
+  @property({ type: Array, attribute: 'pinned-items' })
+  pinnedItems: SidebarItem[] = []
+
+  /** Actions, not places — see `DpSidebarActionEvent`. A place belongs in `pinnedItems`. */
   @property({ type: Array, attribute: 'bottom-items' })
   bottomItems: SidebarItem[] = []
 
@@ -220,7 +240,12 @@ export class DpSidebar extends LitElement {
         ${!this.collapsed && this.header ? html`<span class="header-label">${this.header}</span>` : nothing}
       </div>
       <nav aria-label=${this.navLabel || nothing}>
-        ${this.items.map((entry) => (isGroup(entry) ? this.#renderGroup(entry) : this.#renderItem(entry)))}
+        <div class="nav-items">
+          ${this.items.map((entry) => (isGroup(entry) ? this.#renderGroup(entry) : this.#renderItem(entry)))}
+        </div>
+        ${this.pinnedItems.length > 0
+          ? html`<div class="pinned">${this.pinnedItems.map((item) => this.#renderItem(item))}</div>`
+          : nothing}
       </nav>
       ${this.bottomItems.length > 0
         ? html`<div class="bottom-group">${this.bottomItems.map((item) => this.#renderAction(item))}</div>`

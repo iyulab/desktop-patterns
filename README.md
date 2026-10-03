@@ -114,6 +114,7 @@ nav.items = [
     items: [{ id: 'runs', icon: '▶', label: 'Runs', href: '/runs' }],
   },
 ]
+nav.pinnedItems = [{ id: 'settings', icon: '⚙', label: 'Settings' }]   // places kept at the foot of the rail
 nav.bottomItems = [{ id: 'sign-out', icon: '⎋', label: 'Sign out' }]  // actions, not places
 nav.setAttribute('nav-label', 'Main')                                 // names the navigation landmark
 ```
@@ -130,6 +131,9 @@ nav.setAttribute('nav-label', 'Main')                                 // names t
 - **`dp-sidebar-activate`** fires on every pick of a navigation item, the active one included (after
   `dp-sidebar-select` when the place changes; not when that was cancelled). Close a drawer on it: picking the
   place already shown still means "take me there", and `dp-sidebar-select` does not fire for it.
+- **Pinned places** (`pinnedItems`) sit at the foot of the rail, inside the same navigation landmark and outside
+  the scrolling list. They are places like `items` — `dp-sidebar-select`, `aria-current`, `href` all apply — so a
+  settings or help page shown there is marked as the current page.
 - **Bottom items are actions**: each click fires `dp-sidebar-action` (`itemId`) — every time, so a failed action can
   be retried — and never moves `aria-current`. (In 0.2.x they fired `dp-sidebar-select` and took the active mark.)
 
