@@ -90,13 +90,14 @@
     "@storybook/web-components": "^10.6.0",
     "@storybook/web-components-vite": "^10.6.0",
     "@types/mocha": "^10.0.10",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@web/dev-server-esbuild": "^2.0.0",
     "@web/test-runner": "^1.0.0",
     "@web/test-runner-commands": "^1.0.1",
     "axe-core": "^4.13.0",
     "storybook": "^10.6.0",
-    "typescript": "^6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.3.1",
-    "vite-plugin-dts": "^5.1.1"
+    "vite-plugin-dts": "^5.1.2"
   }
 }
