@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-03
+
 ### Added
 
 - `dp-sidebar` `pinnedItems`: places kept at the foot of the rail, inside the navigation landmark and below the
