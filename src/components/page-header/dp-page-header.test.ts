@@ -33,6 +33,16 @@ describe('dp-page-header', () => {
     expect(top(narrow)).to.be.at.least(headingBottom(narrow))
   })
 
+  it('keeps the heading readable when the actions are wider than the room beside it', async () => {
+    const el = await fixture<DpPageHeader>(html`<dp-page-header style="width: 800px" eyebrow="E" heading="A heading of several words">
+      <div slot="actions" style="display: flex; gap: 8px"><input style="width: 260px" /><input style="width: 260px" /><button>Go</button></div>
+    </dp-page-header>`)
+    const heading = el.shadowRoot!.querySelector('h2')!.getBoundingClientRect()
+    expect(el.shadowRoot!.querySelector('.main')!.getBoundingClientRect().width).to.be.at.least(300)
+    expect(heading.height, 'the heading stays on one line').to.be.below(40)
+    expect(el.shadowRoot!.querySelector('.actions')!.getBoundingClientRect().top).to.be.at.least(heading.bottom)
+  })
+
   it('is accessible', async () => {
     const el = await fixture<DpPageHeader>(html`<dp-page-header eyebrow="Clients" heading="Ada" description="9 sessions"><button slot="actions">Edit</button></dp-page-header>`)
     await expect(el).to.be.accessible()

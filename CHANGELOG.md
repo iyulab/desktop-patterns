@@ -13,6 +13,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
   scrolling list. They select and show as the current page like any other item; `bottomItems` stay actions. A
   settings or help page placed among the bottom actions had no current-page mark while it was shown.
 
+### Fixed
+
+- `dp-page-header` squeezed its heading toward nothing when the actions were wide — a few form fields in the
+  `actions` slot left the heading a column one letter wide. The heading now keeps a readable width (about 20em)
+  and actions that do not fit beside it wrap under it, at any width rather than only below 480px.
+
 ### Changed
 
 - Development: `tsc` (and `npm run typecheck`) is TypeScript 7, installed as `@typescript/native`; `typescript`
