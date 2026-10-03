@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Changed
+
+- Development: `tsc` (and `npm run typecheck`) is TypeScript 7, installed as `@typescript/native`; `typescript`
+  resolves to `@typescript/typescript6`, whose compiler API the declaration build reads. The published files are
+  unchanged.
+
 ## [0.7.2] - 2026-10-03
 
 ### Fixed
