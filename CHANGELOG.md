@@ -7,8 +7,11 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-06
+
 ### Added
 
+- Accepts `@iyulab/desktop-compact` 0.12 as its peer.
 - `dp-list-detail` `list-collapsed` (`listCollapsed`): at desktop width, folds the list away and gives the item
   the whole width — for reading a wide table. The consumer owns it, with a control that brings the list back.
   Below desktop width it changes nothing; `detail-open` still picks the one pane shown.
