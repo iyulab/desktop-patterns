@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-list-detail` `list-collapsed` (`listCollapsed`): at desktop width, folds the list away and gives the item
+  the whole width — for reading a wide table. The consumer owns it, with a control that brings the list back.
+  Below desktop width it changes nothing; `detail-open` still picks the one pane shown.
+
 ### Changed
 
 - `dp-sidebar`: a group without an `icon` reads as a section heading over its items — smaller and quieter than

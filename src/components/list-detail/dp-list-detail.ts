@@ -55,6 +55,11 @@ export class DpListDetail extends LitElement {
       .detail {
         display: block;
       }
+      /* Folded away: the item takes the whole width until the list is wanted again. */
+      :host([list-collapsed]) .list,
+      :host([list-collapsed][detail-open]) .list {
+        display: none;
+      }
     }
     /* On paper only the item picked is printed, at its full length. */
     @media print {
@@ -76,6 +81,14 @@ export class DpListDetail extends LitElement {
   /** Below desktop width, show the picked item instead of the list. Above it both are always shown. */
   @property({ type: Boolean, reflect: true, attribute: 'detail-open' })
   detailOpen = false
+
+  /**
+   * At desktop width, fold the list away and give the item the whole width — for reading a wide item. The
+   * consumer owns it, with a control that brings the list back. Below desktop width it changes nothing:
+   * `detail-open` already picks the one pane shown.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'list-collapsed' })
+  listCollapsed = false
 
   render() {
     return html`

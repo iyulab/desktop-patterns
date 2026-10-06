@@ -67,6 +67,31 @@ describe('dp-list-detail', () => {
     expect(getComputedStyle(pane(el, 'detail')).display).to.equal('block')
   })
 
+  it('at desktop width folds the list away while list-collapsed is set, the item taking the whole width', async () => {
+    await setViewport({ width: 1280, height: 800 })
+    const el = (await fixture(view())).querySelector('dp-list-detail')!
+    const whole = el.getBoundingClientRect().width
+    el.listCollapsed = true
+    await el.updateComplete
+    expect(el.hasAttribute('list-collapsed')).to.be.true
+    expect(getComputedStyle(pane(el, 'list')).display).to.equal('none')
+    expect(pane(el, 'detail').getBoundingClientRect().width).to.equal(whole)
+    el.listCollapsed = false
+    await el.updateComplete
+    expect(getComputedStyle(pane(el, 'list')).display).to.equal('block')
+  })
+
+  it('below desktop width leaves the panes to detail-open whether or not the list is collapsed', async () => {
+    await setViewport({ width: 800, height: 600 })
+    const el = (await fixture(view())).querySelector('dp-list-detail')!
+    el.listCollapsed = true
+    await el.updateComplete
+    expect(getComputedStyle(pane(el, 'list')).display).to.equal('block')
+    el.detailOpen = true
+    await el.updateComplete
+    expect(getComputedStyle(pane(el, 'detail')).display).to.equal('block')
+  })
+
   it('is accessible', async () => {
     const el = (await fixture(view())).querySelector('dp-list-detail')!
     await expect(el).to.be.accessible()
