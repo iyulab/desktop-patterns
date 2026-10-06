@@ -22,6 +22,11 @@
   syntax: '*';
   inherits: true;
 }
+/* dp-sidebar's heading size for a group without an icon. Unset, the sidebar uses var(--dc-font-size-xs, 11px). */
+@property --dp-sidebar-group-size {
+  syntax: '*';
+  inherits: true;
+}
 :root {
   --dp-sidebar-width: 220px;
   --dp-sidebar-width-collapsed: 52px;

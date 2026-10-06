@@ -148,9 +148,18 @@ export class DpSidebar extends LitElement {
       justify-content: center;
       padding: var(--dc-space-3, 12px) 0;
     }
-    /* Items inside an open group sit one step in, so the group reads as a set. */
-    :host(:not([collapsed])) .group-items .item {
+    /* A group with an icon is a parent item: its items sit one step in, so it reads as a set. */
+    :host(:not([collapsed])) .group:not(.heading) .group-items .item {
       padding-left: calc(var(--dc-space-3, 12px) * 2);
+    }
+    /* A group without one is a heading over its items: smaller and quieter than they are, its label flush
+       with their icons, and the items at the rail's own indent - the heading, not an indent, makes the set. */
+    .group.heading > .group-toggle {
+      padding-top: var(--dc-space-3, 12px);
+      padding-bottom: var(--dc-space-1, 4px);
+      font-size: var(--dp-sidebar-group-size, var(--dc-font-size-xs, 11px));
+      font-weight: var(--dc-font-weight-semibold, 600);
+      color: var(--dc-color-text-muted, #6b6b73);
     }
     /* In the collapsed rail a group has no label to show; a rule marks where it starts. */
     :host([collapsed]) .group + .group,
@@ -259,8 +268,9 @@ export class DpSidebar extends LitElement {
     const closedByDefault = group.collapsed === true
     const open = this.collapsed || holdsActive || closedByDefault === this.toggledGroups.has(group.id)
     const itemsId = `group-${group.id}`
+    const heading = !group.icon
     return html`
-      <div class="group">
+      <div class=${heading ? 'group heading' : 'group'}>
         ${this.collapsed
           ? nothing
           : html`<button
@@ -269,7 +279,7 @@ export class DpSidebar extends LitElement {
               aria-controls=${itemsId}
               @click=${() => this.#toggleGroup(group.id)}
             >
-              ${this.#renderIcon(group.id, group.icon ?? '')}
+              ${heading ? nothing : this.#renderIcon(group.id, group.icon ?? '')}
               <span class="label">${group.label}</span>
               <span class="caret" aria-hidden="true">▾</span>
             </button>`}

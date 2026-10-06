@@ -202,6 +202,25 @@ describe('dp-sidebar — groups', () => {
     expect(el.shadowRoot!.querySelectorAll('nav a').length).to.equal(4)
   })
 
+  it('reads a group without an icon as a heading: no icon box, smaller than its items, its items at the rail indent', async () => {
+    const SECTIONED = [
+      { id: 'records', label: 'Records', items: [{ id: 'people', icon: '■', label: 'People', href: '/people' }] },
+      GROUPED[1],
+    ]
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${SECTIONED} active-id="people"></dp-sidebar>`)
+    const [heading, parent] = [...el.shadowRoot!.querySelectorAll<HTMLElement>('.group')]
+    expect(heading.classList.contains('heading')).to.be.true
+    expect(parent.classList.contains('heading')).to.be.false
+    const toggle = heading.querySelector<HTMLElement>('.group-toggle')!
+    expect(toggle.querySelector('.icon')).to.be.null
+    expect(toggle.getAttribute('aria-expanded')).to.equal('true')
+    const item = heading.querySelector<HTMLElement>('.group-items .item')!
+    expect(parseFloat(getComputedStyle(toggle).fontSize)).to.be.lessThan(parseFloat(getComputedStyle(item).fontSize))
+    expect(getComputedStyle(item).paddingLeft).to.equal(getComputedStyle(toggle).paddingLeft)
+    const nested = parent.querySelector<HTMLElement>('.group-items .item')!
+    expect(parseFloat(getComputedStyle(nested).paddingLeft)).to.be.greaterThan(parseFloat(getComputedStyle(toggle).paddingLeft))
+  })
+
   it('is accessible with groups and links (expanded and collapsed)', async () => {
     const expanded = await fixture<DpSidebar>(html`<dp-sidebar .items=${GROUPED} active-id="orders" nav-label="Main"></dp-sidebar>`)
     await expect(expanded).to.be.accessible()

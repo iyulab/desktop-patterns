@@ -7,6 +7,14 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Changed
+
+- `dp-sidebar`: a group without an `icon` reads as a section heading over its items — smaller and quieter than
+  they are (`--dp-sidebar-group-size`, default `--dc-font-size-xs`), with no empty icon box, its label flush with
+  the items' icons, and its items at the rail's own indent. Before, the heading sat after an empty icon box and its
+  items one step further in, so the heading looked indented past its items. A group with an icon keeps reading as
+  a parent item with its items one step in.
+
 ## [0.8.0] - 2026-10-03
 
 ### Added
