@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-10-07
+
 ### Fixed
 
 - `dp-sidebar`: the group disclosure caret no longer turns with an animation when the user prefers reduced motion
