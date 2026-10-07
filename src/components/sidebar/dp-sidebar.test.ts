@@ -1,4 +1,5 @@
 import { fixture, html, expect, oneEvent } from '@open-wc/testing'
+import { emulateMedia } from '@web/test-runner-commands'
 import './dp-sidebar.js'
 import type { DpSidebar, DpSidebarActionEvent, DpSidebarActivateEvent, DpSidebarSelectEvent } from './dp-sidebar.js'
 
@@ -185,6 +186,18 @@ describe('dp-sidebar — groups', () => {
     await el.updateComplete
     expect(toggles[1].getAttribute('aria-expanded')).to.equal('true')
     expect(admin.hidden).to.be.false
+  })
+
+  it('turns the disclosure caret without motion when the user asks for reduced motion', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${GROUPED} active-id="home"></dp-sidebar>`)
+    const caret = el.shadowRoot!.querySelector<HTMLElement>('button.group-toggle .caret')!
+    expect(getComputedStyle(caret).transitionDuration).to.not.equal('0s')
+    await emulateMedia({ reducedMotion: 'reduce' })
+    try {
+      expect(getComputedStyle(caret).transitionDuration).to.equal('0s')
+    } finally {
+      await emulateMedia({ reducedMotion: 'no-preference' })
+    }
   })
 
   it('keeps a collapsed group open while it holds the current page — the active item is never hidden', async () => {

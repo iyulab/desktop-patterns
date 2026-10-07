@@ -230,6 +230,12 @@ export class DpSidebar extends LitElement {
     .group-toggle[aria-expanded='false'] .caret {
       transform: rotate(-90deg);
     }
+    /* The turn is decoration: with reduced motion the caret takes its new angle at once. */
+    @media (prefers-reduced-motion: reduce) {
+      .caret {
+        transition: none;
+      }
+    }
     .footer {
       border-top: 1px solid var(--dc-color-border, #e2e2e4);
     }
