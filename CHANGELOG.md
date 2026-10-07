@@ -7,6 +7,17 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-10-07
+
+### Added
+
+- `dp-sidebar` toggle actions: a bottom action with `pressed` (`SidebarAction.pressed`) is a setting it turns on
+  and off. The button carries `aria-pressed`, and when on it gets a quiet ground and an accent icon
+  (`--dp-sidebar-pressed-bg`, `--dp-sidebar-pressed-icon-color`), visible in the collapsed rail too and distinct
+  from the current page's marker. A setting such as a dense or touch mode no longer has to rename itself
+  "turn on / turn off" to show its state. The consumer owns the value: change it on `dp-sidebar-action` and pass
+  `bottomItems` again. `bottomItems` is now typed `SidebarAction[]` (a `SidebarItem` still fits).
+
 ## [0.9.0] - 2026-10-06
 
 ### Added
