@@ -15,6 +15,20 @@ export interface SidebarItem {
   href?: string
 }
 
+/**
+ * One bottom action. With `pressed` it is a toggle — a setting the action turns on and off (a dense
+ * or touch mode, a theme): the button carries `aria-pressed` and, when on, a quiet ground and an accent
+ * icon. Its `label` then names the setting, not what a click would do. The sidebar does not flip it;
+ * the consumer owns the state, changes it on `dp-sidebar-action`, and passes the new value back.
+ */
+export interface SidebarAction {
+  id: string
+  /** Text fallback for the `icon-<id>` slot. */
+  icon: string
+  label: string
+  pressed?: boolean
+}
+
 /** A named set of items under one disclosure. */
 export interface SidebarGroup {
   id: string
@@ -189,6 +203,17 @@ export class DpSidebar extends LitElement {
     .item[aria-current='page']:hover {
       background: var(--dc-selection-bg, var(--dc-color-surface-hover, #ececed));
     }
+    /* A toggle that is on. Not a place, so not the rail marker or the current-page colour of the label:
+       a quiet ground (--dp-sidebar-pressed-bg) and the accent on the icon, so it still reads in the
+       collapsed rail, where only the icon shows. Declared after :hover so hovering keeps the ground. */
+    .item[aria-pressed='true'],
+    .item[aria-pressed='true']:hover {
+      background: var(--dp-sidebar-pressed-bg, var(--dc-selection-bg, var(--dc-color-surface-hover, #ececed)));
+      color: var(--dc-color-text, #1d1d1f);
+    }
+    .item[aria-pressed='true'] .icon {
+      color: var(--dp-sidebar-pressed-icon-color, var(--dc-color-accent-text, var(--dc-color-accent, #2563eb)));
+    }
     .item:focus-visible {
       outline: 2px solid var(--dc-color-accent, #2563eb);
       outline-offset: -2px;
@@ -223,7 +248,7 @@ export class DpSidebar extends LitElement {
 
   /** Actions, not places — see `DpSidebarActionEvent`. A place belongs in `pinnedItems`. */
   @property({ type: Array, attribute: 'bottom-items' })
-  bottomItems: SidebarItem[] = []
+  bottomItems: SidebarAction[] = []
 
   @property({ attribute: 'active-id' })
   activeId = ''
@@ -314,11 +339,12 @@ export class DpSidebar extends LitElement {
         </button>`
   }
 
-  #renderAction(item: SidebarItem) {
+  #renderAction(item: SidebarAction) {
     return html`
       <button
         class="item"
         title=${this.collapsed ? item.label : nothing}
+        aria-pressed=${item.pressed === undefined ? nothing : item.pressed ? 'true' : 'false'}
         @click=${() => this.dispatchEvent(new DpSidebarActionEvent(item.id))}
       >
         ${this.#renderIcon(item.id, item.icon)} ${!this.collapsed ? html`<span class="label">${item.label}</span>` : nothing}

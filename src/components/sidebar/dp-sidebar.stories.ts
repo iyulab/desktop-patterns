@@ -77,13 +77,16 @@ const GROUPED = [
   { id: 'admin', icon: '⚙', label: 'Admin', collapsed: true, items: [{ id: 'users', icon: '☺', label: 'Users', href: '#users' }] },
 ]
 
-/** Links (`href`), a group per section, bottom items as actions, and a named landmark. */
+/** Links (`href`), a group per section, bottom items as actions (one of them a toggle), and a named landmark. */
 export const GroupedLinks: Story = {
   render: (args) => html`
     <div style="height: 480px;">
       <dp-sidebar
         .items=${GROUPED}
-        .bottomItems=${[{ id: 'sign-out', icon: '⎋', label: 'Sign out' }]}
+        .bottomItems=${[
+          { id: 'dense', icon: '▤', label: 'Dense mode', pressed: true },
+          { id: 'sign-out', icon: '⎋', label: 'Sign out' },
+        ]}
         active-id=${args.activeId}
         header=${args.header}
         nav-label="Main"

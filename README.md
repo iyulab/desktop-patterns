@@ -115,7 +115,10 @@ nav.items = [
   },
 ]
 nav.pinnedItems = [{ id: 'settings', icon: '⚙', label: 'Settings' }]   // places kept at the foot of the rail
-nav.bottomItems = [{ id: 'sign-out', icon: '⎋', label: 'Sign out' }]  // actions, not places
+nav.bottomItems = [
+  { id: 'dense', icon: '▤', label: 'Dense mode', pressed: false },    // a toggle: aria-pressed, owned by you
+  { id: 'sign-out', icon: '⎋', label: 'Sign out' },                    // actions, not places
+]
 nav.setAttribute('nav-label', 'Main')                                 // names the navigation landmark
 ```
 
@@ -136,6 +139,11 @@ nav.setAttribute('nav-label', 'Main')                                 // names t
   settings or help page shown there is marked as the current page.
 - **Bottom items are actions**: each click fires `dp-sidebar-action` (`itemId`) — every time, so a failed action can
   be retried — and never moves `aria-current`. (In 0.2.x they fired `dp-sidebar-select` and took the active mark.)
+- **Toggle actions**: a bottom action with `pressed` (`{ id, icon, label, pressed: true | false }`) is a setting it
+  turns on and off. The button carries `aria-pressed`, and an on toggle gets a quiet ground and an accent icon
+  (`--dp-sidebar-pressed-bg`, `--dp-sidebar-pressed-icon-color`) that still shows in the collapsed rail. Name it after
+  the setting ("Dense mode"), not the click ("Turn dense mode on"). The sidebar does not flip it — change the value
+  on `dp-sidebar-action` and set `bottomItems` again.
 
 Every component takes its user-facing text as a plain attribute/property or slot — there is no
 built-in i18n layer. See each component's Storybook story (`npm run storybook`) for its full API.

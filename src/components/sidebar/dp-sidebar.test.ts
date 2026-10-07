@@ -272,6 +272,47 @@ describe('dp-sidebar — icons, landmark name, bottom actions', () => {
   })
 })
 
+describe('dp-sidebar — toggle actions', () => {
+  const toggles = (pressed?: boolean) => [{ id: 'dense', icon: '▤', label: 'Dense mode', pressed }]
+
+  it('carries aria-pressed on a bottom action that has pressed, and its value', async () => {
+    const off = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} .bottomItems=${toggles(false)} active-id="overview"></dp-sidebar>`)
+    expect(off.shadowRoot!.querySelector('.bottom-group button')!.getAttribute('aria-pressed')).to.equal('false')
+    const on = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} .bottomItems=${toggles(true)} active-id="overview"></dp-sidebar>`)
+    expect(on.shadowRoot!.querySelector('.bottom-group button')!.getAttribute('aria-pressed')).to.equal('true')
+  })
+
+  it('leaves a plain action without aria-pressed — it is not a toggle', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} .bottomItems=${toggles()} active-id="overview"></dp-sidebar>`)
+    expect(el.shadowRoot!.querySelector('.bottom-group button')!.hasAttribute('aria-pressed')).to.be.false
+  })
+
+  it('does not flip the state itself — the consumer owns it and passes the new value back', async () => {
+    const el = await fixture<DpSidebar>(html`<dp-sidebar .items=${ITEMS} .bottomItems=${toggles(false)} active-id="overview"></dp-sidebar>`)
+    const button = el.shadowRoot!.querySelector<HTMLButtonElement>('.bottom-group button')!
+    let actions = 0
+    el.addEventListener('dp-sidebar-action', () => actions++)
+    button.click()
+    await el.updateComplete
+    expect(actions).to.equal(1)
+    expect(button.getAttribute('aria-pressed')).to.equal('false')
+    el.bottomItems = toggles(true)
+    await el.updateComplete
+    expect(el.shadowRoot!.querySelector('.bottom-group button')!.getAttribute('aria-pressed')).to.equal('true')
+  })
+
+  it('draws an on toggle apart from an off one — a ground and an accent icon, and no current-page marker', async () => {
+    const el = await fixture<DpSidebar>(
+      html`<dp-sidebar .items=${ITEMS} .bottomItems=${[...toggles(true), { id: 'other', icon: '○', label: 'Other', pressed: false }]} active-id="overview"></dp-sidebar>`
+    )
+    const [on, off] = el.shadowRoot!.querySelectorAll<HTMLButtonElement>('.bottom-group button')
+    expect(getComputedStyle(on).backgroundColor).to.not.equal(getComputedStyle(off).backgroundColor)
+    expect(getComputedStyle(on.querySelector('.icon')!).color).to.not.equal(getComputedStyle(off.querySelector('.icon')!).color)
+    expect(getComputedStyle(on).borderLeftColor).to.equal(getComputedStyle(off).borderLeftColor)
+    expect(on.hasAttribute('aria-current')).to.be.false
+  })
+})
+
 describe('dp-sidebar — pinned places', () => {
   const MAIN = [{ id: 'home', icon: '⌂', label: 'Home' }]
   const PINNED = [
