@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-12
+
 ### Added
 
 - `dp-shell`: `mainElement` — the box that scrolls the main content. The shell holds the window's height, so the
