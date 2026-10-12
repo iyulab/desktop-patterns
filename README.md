@@ -87,6 +87,11 @@ collapsed rail (`dp-sidebar` `collapsed`). Give the toggle `expanded` so assisti
 which state it is in. The consumer owns both states — start the drawer closed, close it when the
 shell asks (backdrop click, Escape) and when a place is picked, or a narrow window stays covered.
 
+The shell holds the window's height, so the document never scrolls — the main content box does.
+Anything that saves and restores where the user was reading reaches that box through
+`shell.mainElement`; with `@iyulab/router`, hand it to the router's scroll restoration:
+`scrollRestoration: { container: () => document.querySelector('dp-shell')?.mainElement }`.
+
 ### A list beside the item picked from it
 
 ```html

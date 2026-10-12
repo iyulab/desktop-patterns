@@ -11,6 +11,20 @@ describe('dp-shell', () => {
     expect(slot.assignedElements().length).to.equal(1)
   })
 
+  it('exposes the box that scrolls the main content as mainElement', async () => {
+    const el = await fixture<DpShell>(html`<dp-shell><div style="height: 5000px"></div></dp-shell>`)
+    const main = el.mainElement!
+    expect(main).to.equal(el.shadowRoot!.querySelector('main'))
+    expect(main.scrollHeight).to.be.greaterThan(main.clientHeight)
+    main.scrollTop = 300
+    expect(main.scrollTop).to.equal(300)
+    expect(document.scrollingElement!.scrollTop).to.equal(0)
+  })
+
+  it('has no mainElement before it is connected', () => {
+    expect((document.createElement('dp-shell') as DpShell).mainElement).to.be.null
+  })
+
   it('hides the sidebar region by default (sidebar-open false, narrow viewport)', async () => {
     const el = await fixture<DpShell>(html`<dp-shell></dp-shell>`)
     expect(el.hasAttribute('sidebar-open')).to.be.false

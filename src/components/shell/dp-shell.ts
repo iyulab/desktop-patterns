@@ -129,6 +129,16 @@ export class DpShell extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'sidebar-open' })
   sidebarOpen = false
 
+  /**
+   * The box that scrolls the main content. The shell holds the window's height, so the document
+   * never scrolls — this box does. Code that saves and restores where the user was reading (a
+   * router's scroll restoration, for one) reads and writes its `scrollTop`. It sits in the shadow
+   * root, so this is the supported way to reach it. `null` until the first render.
+   */
+  get mainElement(): HTMLElement | null {
+    return this.shadowRoot?.querySelector('main') ?? null
+  }
+
   private readonly onKeydown = (e: KeyboardEvent) => {
     if (e.key !== 'Escape' || e.defaultPrevented || !this.sidebarOpen) return
     this.dispatchEvent(new DpShellSidebarCloseEvent())

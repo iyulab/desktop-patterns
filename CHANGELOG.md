@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-shell`: `mainElement` — the box that scrolls the main content. The shell holds the window's height, so the
+  document never scrolls; code that saves and restores where the user was reading (a router's scroll restoration)
+  reads and writes this box's `scrollTop`. It sits in the shadow root, so this is the supported way to reach it.
+
 ## [0.10.1] - 2026-10-07
 
 ### Fixed
