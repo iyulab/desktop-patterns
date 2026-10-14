@@ -7,6 +7,12 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-10-14
+
+### Changed
+
+- Accepts `@iyulab/desktop-compact` 0.14 as its peer (develops against it).
+
 ## [0.11.1] - 2026-10-13
 
 ### Changed
