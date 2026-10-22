@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
+import { setModalOpen } from '@iyulab/desktop-compact'
 
 export interface ShortcutEntry {
   combo: string
@@ -23,7 +24,8 @@ let instanceCount = 0
  * it closes. This component only dismisses itself (outside
  * click / Escape) by asking — it dispatches `dp-shortcut-overlay-dismiss`
  * rather than setting its own `open` to false, since `open` is the
- * consumer's state to own, not this component's.
+ * consumer's state to own, not this component's. While open it counts as a modal for desktop-compact's
+ * `isModalOpen()`, so an app keeping its shortcuts quiet under a dialog keeps them quiet under this panel too.
  */
 @customElement('dp-shortcut-overlay')
 export class DpShortcutOverlay extends LitElement {
@@ -153,6 +155,8 @@ export class DpShortcutOverlay extends LitElement {
 
   updated(changed: Map<string, unknown>) {
     if (!changed.has('open')) return
+    // An open panel is a modal like desktop-compact's dialogs: isModalOpen() answers for it too.
+    setModalOpen(this, this.open)
     if (this.open) {
       window.addEventListener('keydown', this.#onKeydown)
       this.#returnFocus = deepActiveElement()
@@ -168,6 +172,7 @@ export class DpShortcutOverlay extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback()
     window.removeEventListener('keydown', this.#onKeydown)
+    setModalOpen(this, false)
   }
 
   #dismiss() {

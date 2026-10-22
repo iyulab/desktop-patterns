@@ -7,8 +7,15 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-shortcut-overlay` counts as a modal while open for desktop-compact's `isModalOpen()` (0.15.0), so an app that keeps
+  its shortcuts quiet while a dialog is open keeps them quiet under the panel too.
+
 ### Changed
 
+- Needs `@iyulab/desktop-compact` 0.15 (peer `^0.15.0`, was `^0.2.0` … `^0.14.0`): the overlay registers with its
+  `setModalOpen`. An app on an older desktop-compact moves to 0.15 with this version.
 - The README's drag-region section no longer names one runtime as the owner of the mapping: it is
   the platform adapter layer's job, shown for runtimes that honour CSS `app-region` and described
   for runtimes that start a window drag from an event or a marker.

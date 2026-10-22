@@ -1,6 +1,7 @@
 import { fixture, html, expect } from '@open-wc/testing'
 import './dp-shortcut-overlay.js'
 import type { DpShortcutOverlay } from './dp-shortcut-overlay.js'
+import { isModalOpen } from '@iyulab/desktop-compact'
 
 const SHORTCUTS = [
   { combo: 'Ctrl+K', description: 'Open command palette' },
@@ -8,6 +9,21 @@ const SHORTCUTS = [
 ]
 
 describe('dp-shortcut-overlay', () => {
+  it('counts as a modal while open, for isModalOpen()', async () => {
+    const el = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay .shortcuts=${SHORTCUTS}></dp-shortcut-overlay>`)
+    expect(isModalOpen()).to.be.false
+    el.open = true
+    await el.updateComplete
+    expect(isModalOpen()).to.be.true
+    el.open = false
+    await el.updateComplete
+    expect(isModalOpen()).to.be.false
+    el.open = true
+    await el.updateComplete
+    el.remove()
+    expect(isModalOpen()).to.be.false
+  })
+
   it('renders nothing when closed', async () => {
     const el = await fixture<DpShortcutOverlay>(html`<dp-shortcut-overlay .shortcuts=${SHORTCUTS}></dp-shortcut-overlay>`)
     expect(el.shadowRoot!.querySelector('.backdrop')).to.be.null
