@@ -17,11 +17,8 @@ let instanceCount = 0
 /**
  * Display-only keyboard-shortcuts help panel: a `shortcuts` list + an `open`
  * flag, nothing else. This component owns no registry and no trigger
- * keybinding — the original component this generalizes bound its own
- * `shift+/` shortcut and read from a module-level, framework-hook-specific
- * registry; both are the consumer's responsibility here (see
- * docs/superpowers/specs/2026-09-02-desktop-patterns-design.md, the
- * dp-shortcut-overlay row). While open it is a modal dialog: focus moves to
+ * keybinding — which key opens it and where the shortcut list comes from are
+ * the consumer's responsibility. While open it is a modal dialog: focus moves to
  * its close button, Tab stays inside it, and focus goes back where it was once
  * it closes. This component only dismisses itself (outside
  * click / Escape) by asking — it dispatches `dp-shortcut-overlay-dismiss`

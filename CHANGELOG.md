@@ -7,6 +7,15 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Changed
+
+- The README's drag-region section no longer names one runtime as the owner of the mapping: it is
+  the platform adapter layer's job, shown for runtimes that honour CSS `app-region` and described
+  for runtimes that start a window drag from an event or a marker.
+- The `guard` script checks platform neutrality only (development only — not part of the package).
+  Its other token list was specific to one consumer; a list of names to keep out of a public
+  repository publishes them once it is committed there.
+
 ## [0.11.2] - 2026-10-14
 
 ### Changed

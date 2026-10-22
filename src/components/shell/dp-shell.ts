@@ -15,11 +15,8 @@ export class DpShellSidebarCloseEvent extends Event {
  * content area. Pure composition — every region is a slot, this component
  * has no opinion on what's inside any of them.
  *
- * The original component this generalizes rendered a fixed status banner
- * unconditionally above its `banner` slot; that hardcoded element is gone
- * here — the existing `banner` slot alone is enough for a consumer to put
- * anything there, and this repo has no business knowing what that banner
- * should be.
+ * The `banner` slot renders nothing of its own — a consumer puts anything
+ * there, and this repo has no business knowing what that banner should be.
  *
  * Drag region: this component does not mark any drag region of its own.
  * The `toolbar-row` wrapper is sized exactly to whatever is slotted into

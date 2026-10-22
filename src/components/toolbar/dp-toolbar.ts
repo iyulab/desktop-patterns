@@ -20,18 +20,16 @@ export class DpToolbarToggleEvent extends Event {
  * below.
  *
  * Drag region: the `drag-region` attribute reflects intent only, mirroring
- * dp-shell — this repo never emits any platform-specific CSS itself (see
- * docs/superpowers/specs/2026-09-02-desktop-patterns-design.md, "플랫폼 API
- * 경계"). Named `drag-region`, not the native `draggable` — the platform HTML5
- * Drag-and-Drop attribute already owns that name/IDL property with unrelated
- * semantics (HTMLElement.prototype.draggable); reusing it here would shadow
- * the native accessor on this custom element for a completely different
- * concept (a window-chrome drag handle, not drag-and-drop). This component's
- * original source also hardcoded extra end-padding to reserve room for
- * native window-chrome controls — a platform assumption this repo can't make
- * either. `--dp-toolbar-inset-start`/`--dp-toolbar-inset-end` (default 0)
- * generalize that into a neutral extension point a platform-adapter layer
- * can set.
+ * dp-shell — this repo never emits any platform-specific CSS itself (see the
+ * README, "Platform boundary — drag regions"). Named `drag-region`, not the
+ * native `draggable` — the platform HTML5 Drag-and-Drop attribute already owns
+ * that name/IDL property with unrelated semantics
+ * (HTMLElement.prototype.draggable); reusing it here would shadow the native
+ * accessor on this custom element for a completely different concept (a
+ * window-chrome drag handle, not drag-and-drop). How much room native
+ * window-chrome controls need is a platform fact this repo can't know, so
+ * `--dp-toolbar-inset-start`/`--dp-toolbar-inset-end` (default 0) are a
+ * neutral extension point a platform-adapter layer can set.
  *
  * The drag CSS a consumer maps onto `drag-region` must never target the host
  * itself — the host also contains the `.toggle` button and the `actions`

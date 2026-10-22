@@ -5,9 +5,9 @@ App-shell and structural layout patterns assembled on top of
 elements ([Lit](https://lit.dev)), zero built-in strings, every content region a slot.
 
 Structure only — atomic controls (buttons, inputs, dialogs) belong in `desktop-compact`; native
-platform integration (file dialogs, tray, window control) belongs in
-[`electron-kit`](https://github.com/iyulab/electron-kit). This package doesn't call any platform API
-itself, and knows nothing about any specific consuming application.
+platform integration (file dialogs, tray, window control) belongs to the desktop runtime's own
+adapter layer, whichever runtime the app uses. This package doesn't call any platform API itself,
+and knows nothing about any specific consuming application.
 
 ## Install
 
@@ -173,14 +173,18 @@ values, so it still renders correctly even without either stylesheet.
 something else) but never emits any platform-specific CSS itself. The flag reflects to the host
 attribute, but the actual drag surface is a dedicated `part="drag-handle"` spacer between the start
 group and the `actions` slot — never the whole host — so the mapping can never reach the toggle
-button or slotted actions. Mapping that part to an actual window-drag behavior (e.g.
-`-webkit-app-region: drag` in Electron/Chromium-based webviews) is `electron-kit`'s job:
+button or slotted actions. Mapping that part to an actual window-drag behavior is the job of the
+platform adapter layer, and how depends on the runtime. Where the webview honours the CSS
+`app-region` property (Chromium-based runtimes such as Electron), the mapping is one rule:
 
 ```css
 dp-toolbar[drag-region]::part(drag-handle) {
   -webkit-app-region: drag;
 }
 ```
+
+A runtime that starts a window drag from a pointer event or a marker attribute instead does that on
+the same part — never on the host.
 
 `dp-shell` does not mark any drag region of its own — it has no opinion on what's slotted into
 `toolbar`, so ownership of the drag handle stays entirely with whatever renders there (typically
@@ -212,7 +216,7 @@ follow ARIA APG conventions — `dp-sidebar` uses a semantic `<nav>` (no redunda
 npm install
 npm test              # @web/test-runner, real Chromium
 npm run typecheck
-npm run guard          # forge-ignorance + platform-agnosticism scan (this package must stay domain-neutral and platform-neutral)
+npm run guard          # platform-neutrality scan (src/ must not call or name a platform API)
 npm run build          # per-component ESM output, type declarations
 npm run storybook      # interactive component browser
 ```

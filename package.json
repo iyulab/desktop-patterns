@@ -73,7 +73,7 @@
     "typecheck": "tsc --noEmit",
     "test": "web-test-runner \"src/**/*.test.ts\"",
     "test:watch": "web-test-runner \"src/**/*.test.ts\" --watch",
-    "guard": "node scripts/check-forge-tokens.mjs",
+    "guard": "node scripts/check-platform-neutral.mjs",
     "guard:test": "node --test scripts/*.test.mjs",
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build"
