@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-10-23
+
 ### Added
 
 - `dp-shortcut-overlay` counts as a modal while open for desktop-compact's `isModalOpen()` (0.15.0), so an app that keeps
