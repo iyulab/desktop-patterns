@@ -1,6 +1,6 @@
 import { LitElement, html, css, nothing } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import { setModalOpen } from '@iyulab/desktop-compact'
+import { setModalOpen } from '@iyulab/desktop-compact/modal'
 
 export interface ShortcutEntry {
   combo: string

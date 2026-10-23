@@ -1,7 +1,7 @@
 import { fixture, html, expect } from '@open-wc/testing'
 import './dp-shortcut-overlay.js'
 import type { DpShortcutOverlay } from './dp-shortcut-overlay.js'
-import { isModalOpen } from '@iyulab/desktop-compact'
+import { isModalOpen } from '@iyulab/desktop-compact/modal'
 
 const SHORTCUTS = [
   { combo: 'Ctrl+K', description: 'Open command palette' },
