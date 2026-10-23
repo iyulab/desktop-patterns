@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.12.1] - 2026-10-23
+
 ### Changed
 
 - The shortcut overlay takes `setModalOpen` from `@iyulab/desktop-compact/modal`, so the overlay no longer brings
