@@ -82,10 +82,10 @@
     "lit": "^3.3.3"
   },
   "peerDependencies": {
-    "@iyulab/desktop-compact": "^0.15.0"
+    "@iyulab/desktop-compact": "^0.15.1"
   },
   "devDependencies": {
-    "@iyulab/desktop-compact": "^0.15.0",
+    "@iyulab/desktop-compact": "^0.15.1",
     "@open-wc/testing": "^5.0.0",
     "@storybook/web-components": "^10.6.0",
     "@storybook/web-components-vite": "^10.6.0",
