@@ -1,6 +1,8 @@
 import { esbuildPlugin } from '@web/dev-server-esbuild'
 
 export default {
+  // A CI runner can take longer than the default 30 s to open the first test page; a slow start is not a failure.
+  browserStartTimeout: 120000,
   files: 'src/**/*.test.ts',
   nodeResolve: true,
   // One page at a time: a test that resizes the viewport (setViewport) stalls in a page the
