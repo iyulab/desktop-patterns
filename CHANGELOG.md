@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.12.2] - 2026-10-24
+
 ### Changed
 
 - The peer range admits desktop-compact 0.16 (`^0.15.1 || ^0.16.0`); the components are unchanged and pass their
