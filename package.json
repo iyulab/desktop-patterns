@@ -55,6 +55,11 @@
       "import": "./dist/toolbar.js",
       "default": "./dist/toolbar.js"
     },
+    "./tab-strip": {
+      "types": "./dist/components/tab-strip/dp-tab-strip.d.ts",
+      "import": "./dist/tab-strip.js",
+      "default": "./dist/tab-strip.js"
+    },
     "./shell": {
       "types": "./dist/components/shell/dp-shell.d.ts",
       "import": "./dist/shell.js",

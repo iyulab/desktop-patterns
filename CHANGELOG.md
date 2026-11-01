@@ -7,6 +7,15 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Added
+
+- `dp-tab-strip` (`@iyulab/desktop-patterns/tab-strip`): a strip of document tabs — the container only. It draws the tabs
+  (`items`: `id`, `label`, `pinned`, `dirty`, `closable`), marks `active-id`, and reports what the user did
+  (`dp-tab-select`, `dp-tab-close`, `dp-tab-pin`) without changing its own state; the host decides what a tab opens, what
+  closing means and whether to ask about unsaved changes. Keyboard: roving tab stop, arrows/Home/End select, Delete closes.
+  Pointer: click selects, the close button or middle-click closes, double-click toggles pin. No built-in strings — the
+  accessible names come from `label` and `close-label`.
+
 ## [0.12.2] - 2026-10-24
 
 ### Changed
