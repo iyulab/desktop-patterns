@@ -7,6 +7,8 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-01
+
 ### Added
 
 - `dp-tab-strip` (`@iyulab/desktop-patterns/tab-strip`): a strip of document tabs — the container only. It draws the tabs
