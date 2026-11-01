@@ -379,6 +379,10 @@ describe('dp-sidebar — pinned places', () => {
 describe('dp-sidebar role tokens', () => {
   const items = [{ id: 'a', icon: '◉', label: 'Clients' }, { id: 'b', icon: '▦', label: 'Report' }]
 
+  // The expected colours are the light theme's; a machine set to dark would otherwise load the dark tokens.
+  beforeEach(() => emulateMedia({ colorScheme: 'light' }))
+  afterEach(() => emulateMedia({ colorScheme: 'no-preference' }))
+
   const loadTokens = async () => {
     const added: HTMLLinkElement[] = []
     for (const href of ['/node_modules/@iyulab/desktop-compact/tokens.css', '/tokens.css']) {
