@@ -7,6 +7,10 @@ release may change the API). Releases up to 0.6.0 are recorded in the git histor
 
 ## [Unreleased]
 
+### Changed
+
+- Development only: refreshed the transitive test-runner packages that `npm audit` flagged as fixable within their ranges (`qs`, `zod`, and a few more). The published package and its dependencies are unchanged.
+
 ## [0.13.0] - 2026-11-01
 
 ### Added
